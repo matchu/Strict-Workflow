@@ -27,8 +27,13 @@
         display: none;
         margin-left: 1em;
       }
+      
+      #time-format-error {
+        color: red;
+        display: none;
+      }
 
-      #save-successful.show {
+      #save-successful.show, #time-format-error.show {
         display: inline;
       }
 
@@ -43,6 +48,15 @@
 
       div {
         margin-bottom: .75em;
+      }
+      
+      #durations label {
+        font-weight: bold;
+      }
+      
+      #durations span {
+        font-size: 85%;
+        margin-right: 1.5em;
       }
     </style>
   </head>
@@ -59,34 +73,74 @@
       not block Gmail, search results, or other Google.com pages.
     </p>
     <p id="work-block-info">
-      To help remove temptation, you may not change the blocked sites list
-      until a break session starts. Patience, grasshopper.
+      To help remove temptation, you may not change these settings until a
+      break session starts. Patience, grasshopper.
     </p>
-    <div>
-      <textarea id="domain-blacklist"></textarea>
-    </div>
-    <div>
-      <input id="should-ring" type="checkbox">
-      <label for="should-ring">
-        Ring when a timer finishes (audio)
-      </label>
-    </div>
-    <button id="save-button">Save</button>
-    <span id="save-successful">Save successful</span>
+    <form id="options-form">
+      <div>
+        <textarea id="domain-blacklist"></textarea>
+      </div>
+      <div id="durations">
+        <label for="work-duration">Work:</label>
+        <input id="work-duration" type="text" size="2" />
+        <span>minutes</span>
+        <label for="break-duration">Break:</label>
+        <input id="break-duration" type="text" size="2" />
+        <span>minutes</span>
+        <span id="time-format-error">
+          Time must be in the format MM or MM:SS
+        </span>
+      </div>
+      <div>
+        <input id="should-ring" type="checkbox">
+        <label for="should-ring">
+          Ring when a timer finishes (audio)
+        </label>
+      </div>
+      <button type="submit" id="save-button">Save</button>
+      <span id="save-successful">Save successful</span>
+    </form>
     <script type="text/javascript">
-      var button = document.getElementById('save-button'),
+      var form = document.getElementById('options-form'),
         domainBlacklistEl = document.getElementById('domain-blacklist'),
         shouldRingEl = document.getElementById('should-ring'),
         saveSuccessfulEl = document.getElementById('save-successful'),
+        timeFormatErrorEl = document.getElementById('time-format-error'),
         background = chrome.extension.getBackgroundPage(),
-        startCallbacks = {};
+        startCallbacks = {}, durationEls = {};
+        
+      durationEls['work'] = document.getElementById('work-duration');
+      durationEls['break'] = document.getElementById('break-duration');
+      
+      var TIME_REGEX = /^([0-9]+)(:([0-9]{2}))?$/;
 
-      button.onclick = function () {
-        background.setDomainBlacklist(
-          domainBlacklistEl.value.split(/\r?\n/)
-        );
-        background.setShouldRing(shouldRingEl.checked);
+      form.onsubmit = function () {
+        console.log("form submitted");
+        var durations = {}, duration, durationStr, durationMatch;
+        for(var key in durationEls) {
+          durationStr = durationEls[key].value;
+          durationMatch = durationStr.match(TIME_REGEX);
+          if(durationMatch) {
+            console.log(durationMatch);
+            durations[key] = (60 * parseInt(durationMatch[1], 10));
+            if(durationMatch[3]) {
+              durations[key] += parseInt(durationMatch[3], 10);
+            }
+          } else {
+            timeFormatErrorEl.className = 'show';
+            return false;
+          } 
+        }
+        
+        console.log(durations);
+        
+        background.setPrefs({
+          domainBlacklist: domainBlacklistEl.value.split(/\r?\n/),
+          durations:       durations,
+          shouldRing:      shouldRingEl.checked
+        })
         saveSuccessfulEl.className = 'show';
+        return false;
       }
 
       domainBlacklistEl.onfocus = formAltered;
@@ -94,14 +148,32 @@
 
       function formAltered() {
         saveSuccessfulEl.removeAttribute('class');
+        timeFormatErrorEl.removeAttribute('class');
       }
 
-      domainBlacklistEl.value = background.DOMAIN_BLACKLIST.join("\n");
-      shouldRingEl.checked = background.shouldRing;
-      console.log(background.shouldRing);
+      domainBlacklistEl.value = background.PREFS.domainBlacklist.join("\n");
+      shouldRingEl.checked = background.PREFS.shouldRing;
+      
+      var duration, minutes, seconds;
+      for(var key in durationEls) {
+        duration = background.PREFS.durations[key];
+        seconds = duration % 60;
+        minutes = (duration - seconds) / 60;
+        if(seconds >= 10) {
+          durationEls[key].value = minutes + ":" + seconds;
+        } else if(seconds > 0) {
+          durationEls[key].value = minutes + ":0" + seconds;
+        } else {
+          durationEls[key].value = minutes;
+        }
+        durationEls[key].onfocus = formAltered;
+      }
 
       function setInputDisabled(state) {
         domainBlacklistEl.disabled = state;
+        for(var key in durationEls) {
+          durationEls[key].disabled = state;
+        }
       }
 
       startCallbacks.work = function () {
@@ -114,7 +186,7 @@
         setInputDisabled(false);
       }
 
-      if(background.main_pomodoro.most_recent_mode == 'work') {
+      if(background.mainPomodoro.most_recent_mode == 'work') {
         startCallbacks.work();
       }
     </script>

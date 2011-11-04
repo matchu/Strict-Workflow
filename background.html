@@ -8,43 +8,68 @@
 
     */
 
-    var DURATIONS = { // in seconds
-      work: 25 * 60,
-      break: 5 * 60
-    }, BADGE_BACKGROUND_COLORS = {
+    var PREFS = loadPrefs(),
+    BADGE_BACKGROUND_COLORS = {
       work: [192, 0, 0, 255],
       break: [0, 192, 0, 255]
-    }, DOMAIN_BLACKLIST, RING = new Audio("http://www.matchusian.com/strict_pomodoro/ring.mp3"),
-    shouldRing, ringLoaded = false;
-
-    function setShouldRing(newShouldRing) {
-      console.log('setting should ring: ', newShouldRing);
-      shouldRing = localStorage['should_ring'] = newShouldRing;
+    }, RING = new Audio("http://www.matchusian.com/strict_pomodoro/ring.mp3"),
+    ringLoaded = false;
+    
+    loadRingIfNecessary();
+    
+    function defaultPrefs() {
+      return {
+        domainBlacklist: [
+          'facebook.com',
+          'youtube.com',
+          'twitter.com',
+          'myspace.com',
+          'livejournal.com',
+          'digg.com',
+          'reddit.com',
+          'kongregate.com',
+          'newgrounds.com',
+          'addictinggames.com',
+          'hulu.com'
+        ],
+        durations: { // in seconds
+          work: 25 * 60,
+          break: 5 * 60
+        },
+        shouldRing: true
+      }
+    }
+    
+    function loadPrefs() {
+      if(typeof localStorage['prefs'] !== 'undefined') {
+        return JSON.parse(localStorage['prefs']);
+      } else {
+        return savePrefs(defaultPrefs());
+      }
+    }
+    
+    function savePrefs(prefs) {
+      localStorage['prefs'] = JSON.stringify(prefs);
+      return prefs;
+    }
+    
+    function setPrefs(prefs) {
+      PREFS = savePrefs(prefs);
       loadRingIfNecessary();
+      return prefs;
     }
 
     function loadRingIfNecessary() {
       console.log('is ring necessary?');
-      if(shouldRing && !ringLoaded) {
+      if(PREFS.shouldRing && !ringLoaded) {
         console.log('ring is necessary');
-        RING.onload = function () { ringLoaded = true }
+        RING.onload = function () {
+          console.log('ring loaded');
+          ringLoaded = true;
+        }
         RING.load();
       }
     }
-
-    if(typeof localStorage['should_ring'] === 'undefined') {
-      setShouldRing(true);
-    } else {
-      shouldRing = localStorage['should_ring'] == 'true';
-      loadRingIfNecessary();
-    }
-
-    /* use this block for testing *
-    DURATIONS = {
-      work: 5,
-      break: 5
-    }
-    /**/
 
     var ICONS = {
       ACTION: {
@@ -59,29 +84,6 @@
       ICONS.ACTION.CURRENT[iconType] = "icons/" + iconType + ".png";
       ICONS.ACTION.PENDING[iconType] = "icons/" + iconType + "_pending.png";
       ICONS.FULL[iconType] = "icons/" + iconType + "_full.png";
-    }
-
-    function setDomainBlacklist(newList) {
-      DOMAIN_BLACKLIST = newList;
-      localStorage['domain_blacklist'] = JSON.stringify(newList);
-    }
-
-    if(localStorage['domain_blacklist']) {
-      DOMAIN_BLACKLIST = JSON.parse(localStorage['domain_blacklist']);
-    } else {
-      setDomainBlacklist([
-        'facebook.com',
-        'youtube.com',
-        'twitter.com',
-        'myspace.com',
-        'livejournal.com',
-        'digg.com',
-        'reddit.com',
-        'kongregate.com',
-        'newgrounds.com',
-        'addictinggames.com',
-        'hulu.com'
-      ]);
     }
 
     /*
@@ -108,7 +110,7 @@
           timerOptions[key] = options.timer[key];
         }
         timerOptions.type = this.mostRecentMode;
-        timerOptions.duration = options.durations[this.mostRecentMode];
+        timerOptions.duration = options.getDurations()[this.mostRecentMode];
         this.running = true;
         this.currentTimer = new Pomodoro.Timer(this, timerOptions);
         this.currentTimer.start();
@@ -216,8 +218,8 @@
       var file = "content_scripts/" + action + ".js", location;
       location = tab.url.split('://');
       location = parseLocation(location[1]);
-      for(var k in DOMAIN_BLACKLIST) {
-        blacklistedPattern = parseLocation(DOMAIN_BLACKLIST[k]);
+      for(var k in PREFS.domainBlacklist) {
+        blacklistedPattern = parseLocation(PREFS.domainBlacklist[k]);
         if(locationsMatch(location, blacklistedPattern)) {
           chrome.tabs.executeScript(tab.id, {file: file});
         }
@@ -237,7 +239,7 @@
     }
 
     var notification, mainPomodoro = new Pomodoro({
-      durations: DURATIONS,
+      getDurations: function () { return PREFS.durations },
       timer: {
         onEnd: function (timer) {
           chrome.browserAction.setIcon({
@@ -250,7 +252,10 @@
             "Time for the " + timer.pomodoro.nextMode + " phase :)"
           );
           notification.show();
-          if(shouldRing) RING.play();
+          if(PREFS.shouldRing) {
+            console.log("playing ring", RING);
+            RING.play();
+          }
         },
         onStart: function (timer) {
           chrome.browserAction.setIcon({
