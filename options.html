@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Strict Pomodoro Settings</title>
+    <style type="text/css">
+      html {
+        height: 100%;
+        width: 100%;
+      }
+
+      body {
+        background: url(icons/work_full.png) no-repeat fixed right bottom;
+        font-family: sans-serif;
+      }
+
+      #domain-blacklist {
+        height: 15em;
+        width: 25em;
+      }
+
+      p {
+        width: 50%;
+      }
+
+      #save-successful {
+        color: green;
+        display: none;
+        margin-left: 1em;
+      }
+
+      #save-successful.show {
+        display: inline;
+      }
+
+      #work-block-info {
+        color: red;
+        display: none;
+      }
+
+      body.work #work-block-info {
+        display: block;
+      }
+
+      div {
+        margin-bottom: .75em;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Strict Pomodoro Settings</h1>
+    <p>
+      Block domain names by entering one per line below. Entering
+      "www.example.com" will <em>only</em> block that domain and not
+      "mail.example.com", but "example.com" will block all subdomains.
+    </p>
+    <p>
+      If you specify a path, then only URLs that start with that path will be
+      blocked. Entering "google.com/reader" will block Google Reader, but will
+      not block Gmail, search results, or other Google.com pages.
+    </p>
+    <p id="work-block-info">
+      To help remove temptation, you may not change the blocked sites list
+      until a break session starts. Patience, grasshopper.
+    </p>
+    <div>
+      <textarea id="domain-blacklist"></textarea>
+    </div>
+    <div>
+      <input id="should-ring" type="checkbox">
+      <label for="should-ring">
+        Ring when a timer finishes (audio)
+      </label>
+    </div>
+    <button id="save-button">Save</button>
+    <span id="save-successful">Save successful</span>
+    <script type="text/javascript">
+      var button = document.getElementById('save-button'),
+        domainBlacklistEl = document.getElementById('domain-blacklist'),
+        shouldRingEl = document.getElementById('should-ring'),
+        saveSuccessfulEl = document.getElementById('save-successful'),
+        background = chrome.extension.getBackgroundPage(),
+        startCallbacks = {};
+
+      button.onclick = function () {
+        background.setDomainBlacklist(
+          domainBlacklistEl.value.split(/\r?\n/)
+        );
+        background.setShouldRing(shouldRingEl.checked);
+        saveSuccessfulEl.className = 'show';
+      }
+
+      domainBlacklistEl.onfocus = formAltered;
+      shouldRingEl.onchange = formAltered;
+
+      function formAltered() {
+        saveSuccessfulEl.removeAttribute('class');
+      }
+
+      domainBlacklistEl.value = background.DOMAIN_BLACKLIST.join("\n");
+      shouldRingEl.checked = background.shouldRing;
+      console.log(background.shouldRing);
+
+      function setInputDisabled(state) {
+        domainBlacklistEl.disabled = state;
+      }
+
+      startCallbacks.work = function () {
+        document.body.className = 'work';
+        setInputDisabled(true);
+      }
+
+      startCallbacks.break = function () {
+        document.body.removeAttribute('class');
+        setInputDisabled(false);
+      }
+
+      if(background.main_pomodoro.most_recent_mode == 'work') {
+        startCallbacks.work();
+      }
+    </script>
+  </body>
+</html>
+
