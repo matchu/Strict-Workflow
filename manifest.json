@@ -9,7 +9,6 @@
       "16": "icons/icon16.png",
       "48": "icons/icon48.png"
    },
-   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC4XhOcEu2EI+2ZU9ycUsFIYCtE841AxRUIZmMRzzyNFWfKEoILeH/LPHcJjpsr11XzV39pak0q9Zyk6LC0WLbzJTpsS+1kMZIf1lw3IwhUjmq/Bll06LqRaVgENNi4EmP2pf/lIKaxq08itR+/MeqxgsLVaUfEWWcboxRIJL6ZXwIDAQAB",
    "name": "Strict Pomodoro",
    "options_page": "options.html",
    "permissions": [ "notifications", "tabs", "*://*/*" ],
