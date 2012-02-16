@@ -251,6 +251,13 @@
             "Time's up!",
             "Time for the " + timer.pomodoro.nextMode + " phase :)"
           );
+          notification.onclick = function () {
+            console.log("Will get last focused");
+            chrome.windows.getLastFocused(function (window) {
+              chrome.windows.update(window.id, {focused: true});
+            });
+            this.cancel();
+          };
           notification.show();
           if(PREFS.shouldRing) {
             console.log("playing ring", RING);
