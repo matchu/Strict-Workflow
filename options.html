@@ -97,6 +97,12 @@
           Ring when a timer finishes (audio)
         </label>
       </div>
+      <div>
+        <input id="click-resets" type="checkbox">
+        <label for="click-resets">
+          Clicking on a running timer resets it.
+        </label>
+      </div>       
       <button type="submit" id="save-button">Save</button>
       <span id="save-successful">Save successful</span>
     </form>
@@ -104,6 +110,7 @@
       var form = document.getElementById('options-form'),
         domainBlacklistEl = document.getElementById('domain-blacklist'),
         shouldRingEl = document.getElementById('should-ring'),
+        clickResetsEl = document.getElementById('click-resets'),
         saveSuccessfulEl = document.getElementById('save-successful'),
         timeFormatErrorEl = document.getElementById('time-format-error'),
         background = chrome.extension.getBackgroundPage(),
@@ -137,7 +144,8 @@
         background.setPrefs({
           domainBlacklist: domainBlacklistEl.value.split(/\r?\n/),
           durations:       durations,
-          shouldRing:      shouldRingEl.checked
+          shouldRing:      shouldRingEl.checked,
+          clickResets:     clickResetsEl.checked
         })
         saveSuccessfulEl.className = 'show';
         return false;
@@ -145,6 +153,7 @@
 
       domainBlacklistEl.onfocus = formAltered;
       shouldRingEl.onchange = formAltered;
+      clickResetsEl.onchange = formAltered;
 
       function formAltered() {
         saveSuccessfulEl.removeAttribute('class');
@@ -153,6 +162,7 @@
 
       domainBlacklistEl.value = background.PREFS.domainBlacklist.join("\n");
       shouldRingEl.checked = background.PREFS.shouldRing;
+      clickResetsEl.checked = background.PREFS.clickResets;
       
       var duration, minutes, seconds;
       for(var key in durationEls) {

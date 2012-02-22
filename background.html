@@ -36,7 +36,8 @@
           work: 25 * 60,
           break: 5 * 60
         },
-        shouldRing: true
+        shouldRing: true,
+        clickResets: false
       }
     }
     
@@ -115,6 +116,11 @@
         this.currentTimer = new Pomodoro.Timer(this, timerOptions);
         this.currentTimer.start();
       }
+      
+      this.restart = function () {
+          if (this.currentTimer)
+              this.currentTimer.restart();
+      }
     }
 
     Pomodoro.Timer = function Timer(pomodoro, options) {
@@ -127,6 +133,11 @@
         tickInterval = setInterval(tick, 1000);
         options.onStart(timer);
         options.onTick(timer);
+      }
+      
+      this.restart = function() {
+          this.timeRemaining = options.duration;
+          options.onTick(timer);
       }
 
       this.timeRemainingString = function () {
@@ -292,7 +303,11 @@
     });
 
     chrome.browserAction.onClicked.addListener(function (tab) {
-      if(!mainPomodoro.running) mainPomodoro.start();
+      if (mainPomodoro.running) { 
+          if (PREFS.clickResets)
+              mainPomodoro.restart();          
+      } else
+          mainPomodoro.start();
     });
 
     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
