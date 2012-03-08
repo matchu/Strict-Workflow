@@ -19,7 +19,7 @@
     
     function defaultPrefs() {
       return {
-        domainBlacklist: [
+        domainlist: [
           'facebook.com',
           'youtube.com',
           'twitter.com',
@@ -36,7 +36,8 @@
           work: 25 * 60,
           break: 5 * 60
         },
-        shouldRing: true
+        shouldRing: true,
+        whitelist: false
       }
     }
     
@@ -157,9 +158,9 @@
     // The code gets really cluttered down here. Refactor would be in order,
     // but I'm busier with other projects >_<
 
-    function locationsMatch(location, blacklistedPattern) {
-      return domainsMatch(location.domain, blacklistedPattern.domain) &&
-        pathsMatch(location.path, blacklistedPattern.path);
+    function locationsMatch(location, listedPattern) {
+      return domainsMatch(location.domain, listedPattern.domain) &&
+        pathsMatch(location.path, listedPattern.path);
     }
 
     function parseLocation(location) {
@@ -218,17 +219,24 @@
       var file = "content_scripts/" + action + ".js", location;
       location = tab.url.split('://');
       location = parseLocation(location[1]);
-      for(var k in PREFS.domainBlacklist) {
-        blacklistedPattern = parseLocation(PREFS.domainBlacklist[k]);
-        if(locationsMatch(location, blacklistedPattern)) {
-          chrome.tabs.executeScript(tab.id, {file: file});
+      for(var k in PREFS.domainlist) {
+        listedPattern = parseLocation(PREFS.domainlist[k]);
+        if (!PREFS.whitelist) {
+          if(locationsMatch(location, listedPattern)) {
+            chrome.tabs.executeScript(tab.id, {file: file});
+          }
+        } 
+        else if (PREFS.whitelist) {
+          if(!locationsMatch(location, listedPattern)) {
+            chrome.tabs.executeScript(tab.id, {file: file});
+          }
         }
       }
     }
 
     function executeInAllBlacklistedTabs(action) {
       var windows = chrome.windows.getAll({populate: true}, function (windows) {
-        var tabs, tab, domain, blacklistedDomain;
+        var tabs, tab, domain, listedDomain;
         for(var i in windows) {
           tabs = windows[i].tabs;
           for(var j in tabs) {
