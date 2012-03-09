@@ -13,7 +13,7 @@
         font-family: sans-serif;
       }
 
-      #domain-blacklist {
+      #domain-list {
         height: 15em;
         width: 25em;
       }
@@ -63,14 +63,14 @@
   <body>
     <h1>Strict Pomodoro Settings</h1>
     <p>
-      Block domain names by entering one per line below. Entering
-      "www.example.com" will <em>only</em> block that domain and not
-      "mail.example.com", but "example.com" will block all subdomains.
+      Block/Allow domain names by entering one per line below. Entering
+      "www.example.com" will <em>only</em> affect that domain and not
+      "mail.example.com", but "example.com" will affect all subdomains.
     </p>
     <p>
       If you specify a path, then only URLs that start with that path will be
-      blocked. Entering "google.com/reader" will block Google Reader, but will
-      not block Gmail, search results, or other Google.com pages.
+      blocked/allowed. Entering "google.com/reader" will affect Google Reader, but will
+      not affect Gmail, search results, or other Google.com pages.
     </p>
     <p id="work-block-info">
       To help remove temptation, you may not change these settings until a
@@ -78,7 +78,8 @@
     </p>
     <form id="options-form">
       <div>
-        <textarea id="domain-blacklist"></textarea>
+        <textarea id="domain-list"></textarea>
+        <p><label><input id="white-list" type="checkbox"> Whitelist instead of blacklist?</label></p>
       </div>
       <div id="durations">
         <label for="work-duration">Work:</label>
@@ -102,7 +103,8 @@
     </form>
     <script type="text/javascript">
       var form = document.getElementById('options-form'),
-        domainBlacklistEl = document.getElementById('domain-blacklist'),
+        domainlistEl = document.getElementById('domain-list'),
+        whitelistEl = document.getElementById('white-list'),
         shouldRingEl = document.getElementById('should-ring'),
         saveSuccessfulEl = document.getElementById('save-successful'),
         timeFormatErrorEl = document.getElementById('time-format-error'),
@@ -135,15 +137,16 @@
         console.log(durations);
         
         background.setPrefs({
-          domainBlacklist: domainBlacklistEl.value.split(/\r?\n/),
+          domainlist: domainlistEl.value.split(/\r?\n/),
           durations:       durations,
-          shouldRing:      shouldRingEl.checked
+          shouldRing:      shouldRingEl.checked,
+          whitelist:  whitelistEl.checked
         })
         saveSuccessfulEl.className = 'show';
         return false;
       }
 
-      domainBlacklistEl.onfocus = formAltered;
+      domainlistEl.onfocus = formAltered;
       shouldRingEl.onchange = formAltered;
 
       function formAltered() {
@@ -151,7 +154,8 @@
         timeFormatErrorEl.removeAttribute('class');
       }
 
-      domainBlacklistEl.value = background.PREFS.domainBlacklist.join("\n");
+      domainlistEl.value = background.PREFS.domainlist.join("\n");
+      whitelistEl.checked = background.PREFS.whitelist;
       shouldRingEl.checked = background.PREFS.shouldRing;
       
       var duration, minutes, seconds;
@@ -170,7 +174,8 @@
       }
 
       function setInputDisabled(state) {
-        domainBlacklistEl.disabled = state;
+        domainlistEl.disabled = state;
+        whitelistEl.disabled = state;
         for(var key in durationEls) {
           durationEls[key].disabled = state;
         }
