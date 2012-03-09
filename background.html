@@ -219,16 +219,21 @@
       var file = "content_scripts/" + action + ".js", location;
       location = tab.url.split('://');
       location = parseLocation(location[1]);
-      for(var k in PREFS.domainlist) {
-        listedPattern = parseLocation(PREFS.domainlist[k]);
-        if (!PREFS.whitelist) {
+      if (PREFS.whitelist) {
+        var whitelistok = false;
+        for(var k in PREFS.domainlist) {
+          listedPattern = parseLocation(PREFS.domainlist[k]);
+          whitelistok = whitelistok || locationsMatch(location, listedPattern)
+        }
+        if (!whitelistok) {
+          chrome.tabs.executeScript(tab.id, {file: file});
+        }
+      }
+      else {
+        for(var k in PREFS.domainlist) {
+          listedPattern = parseLocation(PREFS.domainlist[k]);
           if(locationsMatch(location, listedPattern)) {
-            chrome.tabs.executeScript(tab.id, {file: file});
-          }
-        } 
-        else if (PREFS.whitelist) {
-          if(!locationsMatch(location, listedPattern)) {
-            chrome.tabs.executeScript(tab.id, {file: file});
+              chrome.tabs.executeScript(tab.id, {file: file});
           }
         }
       }
