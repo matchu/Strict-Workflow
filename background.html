@@ -37,7 +37,7 @@
           break: 5 * 60
         },
         shouldRing: true,
-        clickResets: false
+        clickRestarts: false
       }
     }
     
@@ -118,8 +118,9 @@
       }
       
       this.restart = function () {
-          if (this.currentTimer)
+          if(this.currentTimer) {
               this.currentTimer.restart();
+          }
       }
     }
 
@@ -303,11 +304,13 @@
     });
 
     chrome.browserAction.onClicked.addListener(function (tab) {
-      if (mainPomodoro.running) { 
-          if (PREFS.clickResets)
-              mainPomodoro.restart();          
-      } else
+      if(mainPomodoro.running) { 
+          if(PREFS.clickRestarts) {
+              mainPomodoro.restart();
+          }
+      } else {
           mainPomodoro.start();
+      }
     });
 
     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
