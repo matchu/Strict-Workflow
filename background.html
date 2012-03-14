@@ -19,7 +19,7 @@
     
     function defaultPrefs() {
       return {
-        domainlist: [
+        domainList: [
           'facebook.com',
           'youtube.com',
           'twitter.com',
@@ -44,10 +44,29 @@
     
     function loadPrefs() {
       if(typeof localStorage['prefs'] !== 'undefined') {
-        return JSON.parse(localStorage['prefs']);
+        return updatePrefsFormat(JSON.parse(localStorage['prefs']));
       } else {
         return savePrefs(defaultPrefs());
       }
+    }
+    
+    function updatePrefsFormat(prefs) {
+      // Sometimes we need to change the format of the PREFS module. When just,
+      // say, adding boolean flags with false as the default, there's no
+      // compatibility issue. However, in more complicated situations, we need
+      // to modify an old PREFS module's structure for compatibility.
+      
+      if(prefs.hasOwnProperty('domainBlacklist')) {
+        // Upon adding the whitelist feature, the domainBlacklist property was
+        // renamed to domainList for clarity.
+        
+        prefs.domainList = prefs.domainBlacklist;
+        delete prefs.domainBlacklist;
+        savePrefs(prefs);
+        console.log("Renamed PREFS.domainBlacklist to PREFS.domainList");
+      }
+      
+      return prefs;
     }
     
     function savePrefs(prefs) {
@@ -233,8 +252,8 @@
       location = parseLocation(location[1]);
       if (PREFS.whitelist) {
         var whitelistok = false;
-        for(var k in PREFS.domainlist) {
-          listedPattern = parseLocation(PREFS.domainlist[k]);
+        for(var k in PREFS.domainList) {
+          listedPattern = parseLocation(PREFS.domainList[k]);
           whitelistok = whitelistok || locationsMatch(location, listedPattern)
         }
         if (!whitelistok) {
@@ -242,8 +261,8 @@
         }
       }
       else {
-        for(var k in PREFS.domainlist) {
-          listedPattern = parseLocation(PREFS.domainlist[k]);
+        for(var k in PREFS.domainList) {
+          listedPattern = parseLocation(PREFS.domainList[k]);
           if(locationsMatch(location, listedPattern)) {
               chrome.tabs.executeScript(tab.id, {file: file});
           }
