@@ -214,7 +214,6 @@
     }
 
     function domainsMatch(test, against) {
-
       /*
         google.com ~> google.com: case 1, pass
         www.google.com ~> google.com: case 3, pass
@@ -243,40 +242,40 @@
           return test.substr(testFrom) === '.' + against;
         }
       }
-
+    }
+    
+    function isLocationBlocked(location) {
+      for(var k in PREFS.domainList) {
+        listedPattern = parseLocation(PREFS.domainList[k]);
+        if(locationsMatch(location, listedPattern)) {
+          // If we're in a whitelist, a matched location is not blocked => false
+          // If we're in a blacklist, a matched location is blocked => true
+          return !PREFS.whitelist;
+        }
+      }
+      
+      // If we're in a whitelist, an unmatched location is blocked => true
+      // If we're in a blacklist, an unmatched location is not blocked => false
+      return PREFS.whitelist;
     }
 
-    function executeInTabIfBlacklisted(action, tab) {
+    function executeInTabIfBlocked(action, tab) {
       var file = "content_scripts/" + action + ".js", location;
       location = tab.url.split('://');
       location = parseLocation(location[1]);
-      if (PREFS.whitelist) {
-        var whitelistok = false;
-        for(var k in PREFS.domainList) {
-          listedPattern = parseLocation(PREFS.domainList[k]);
-          whitelistok = whitelistok || locationsMatch(location, listedPattern)
-        }
-        if (!whitelistok) {
-          chrome.tabs.executeScript(tab.id, {file: file});
-        }
-      }
-      else {
-        for(var k in PREFS.domainList) {
-          listedPattern = parseLocation(PREFS.domainList[k]);
-          if(locationsMatch(location, listedPattern)) {
-              chrome.tabs.executeScript(tab.id, {file: file});
-          }
-        }
+      
+      if(isLocationBlocked(location)) {
+        chrome.tabs.executeScript(tab.id, {file: file});
       }
     }
 
-    function executeInAllBlacklistedTabs(action) {
+    function executeInAllBlockedTabs(action) {
       var windows = chrome.windows.getAll({populate: true}, function (windows) {
         var tabs, tab, domain, listedDomain;
         for(var i in windows) {
           tabs = windows[i].tabs;
           for(var j in tabs) {
-            executeInTabIfBlacklisted(action, tabs[j]);
+            executeInTabIfBlocked(action, tabs[j]);
           }
         }
       });
@@ -316,9 +315,9 @@
             color: BADGE_BACKGROUND_COLORS[timer.type]
           });
           if(timer.type == 'work') {
-            executeInAllBlacklistedTabs('block');
+            executeInAllBlockedTabs('block');
           } else {
-            executeInAllBlacklistedTabs('unblock');
+            executeInAllBlockedTabs('unblock');
           }
           if(notification) notification.cancel();
           var tabViews = chrome.extension.getViews({type: 'tab'}), tab;
@@ -347,7 +346,7 @@
 
     chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
       if(mainPomodoro.mostRecentMode == 'work') {
-        executeInTabIfBlacklisted('block', tab);
+        executeInTabIfBlocked('block', tab);
       }
     });
   </script>
