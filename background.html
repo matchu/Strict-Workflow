@@ -19,7 +19,7 @@
     
     function defaultPrefs() {
       return {
-        domainList: [
+        siteList: [
           'facebook.com',
           'youtube.com',
           'twitter.com',
@@ -58,12 +58,12 @@
       
       if(prefs.hasOwnProperty('domainBlacklist')) {
         // Upon adding the whitelist feature, the domainBlacklist property was
-        // renamed to domainList for clarity.
+        // renamed to siteList for clarity.
         
-        prefs.domainList = prefs.domainBlacklist;
+        prefs.siteList = prefs.domainBlacklist;
         delete prefs.domainBlacklist;
         savePrefs(prefs);
-        console.log("Renamed PREFS.domainBlacklist to PREFS.domainList");
+        console.log("Renamed PREFS.domainBlacklist to PREFS.siteList");
       }
       
       return prefs;
@@ -245,8 +245,8 @@
     }
     
     function isLocationBlocked(location) {
-      for(var k in PREFS.domainList) {
-        listedPattern = parseLocation(PREFS.domainList[k]);
+      for(var k in PREFS.siteList) {
+        listedPattern = parseLocation(PREFS.siteList[k]);
         if(locationsMatch(location, listedPattern)) {
           // If we're in a whitelist, a matched location is not blocked => false
           // If we're in a blacklist, a matched location is blocked => true

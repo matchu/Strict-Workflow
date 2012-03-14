@@ -21,28 +21,28 @@
         -webkit-border-radius: 3px;
       }
       
-      #domain-list-wrapper {
+      #site-list-wrapper {
         margin-bottom: 2em;
       }
       
-      #domain-list-header {
+      #site-list-header {
         font-weight: bold;
         margin-bottom: .25em;
       }
       
-      #domain-list-header select {
+      #site-list-header select {
         font-size: 100%;
         font-weight: bold;
         padding: 0;
       }
 
-      #domain-list {
+      #site-list {
         border: 1px solid #aaa;
         height: 15em;
         width: 25em;
       }
       
-      #domain-list-wrapper .note {
+      #site-list-wrapper .note {
         width: 33em;
       }
 
@@ -110,15 +110,15 @@
       session. Patience, please.
     </p>
     <form id="options-form">
-      <div id="domain-list-wrapper">
-        <header id="domain-list-header">
+      <div id="site-list-wrapper">
+        <header id="site-list-header">
           <select id="blacklist-or-whitelist">
             <option>Block</option>
             <option>Only allow</option>
           </select>
           the sites on this list:
         </header>
-        <textarea id="domain-list"></textarea>
+        <textarea id="site-list"></textarea>
         <p class="note">
           Enter one site per line, like "youtube.com" or "google.com/reader/".
           We'll block/allow all URLs with that base.
@@ -162,7 +162,7 @@
     </form>
     <script type="text/javascript">
       var form = document.getElementById('options-form'),
-        domainListEl = document.getElementById('domain-list'),
+        siteListEl = document.getElementById('site-list'),
         whitelistEl = document.getElementById('blacklist-or-whitelist'),
         shouldRingEl = document.getElementById('should-ring'),
         clickRestartsEl = document.getElementById('click-resets'),
@@ -198,7 +198,7 @@
         console.log(durations);
         
         background.setPrefs({
-          domainList:      domainListEl.value.split(/\r?\n/),
+          siteList:        siteListEl.value.split(/\r?\n/),
           durations:       durations,
           shouldRing:      shouldRingEl.checked,
           clickRestarts:   clickRestartsEl.checked,
@@ -208,7 +208,7 @@
         return false;
       }
 
-      domainListEl.onfocus = formAltered;
+      siteListEl.onfocus = formAltered;
       shouldRingEl.onchange = formAltered;
       clickRestartsEl.onchange = formAltered;
       whitelistEl.onchange = formAltered;
@@ -218,7 +218,7 @@
         timeFormatErrorEl.removeAttribute('class');
       }
 
-      domainListEl.value = background.PREFS.domainList.join("\n");
+      siteListEl.value = background.PREFS.siteList.join("\n");
       shouldRingEl.checked = background.PREFS.shouldRing;
       clickRestartsEl.checked = background.PREFS.clickRestarts;
       whitelistEl.selectedIndex = background.PREFS.whitelist ? 1 : 0;
@@ -239,7 +239,7 @@
       }
 
       function setInputDisabled(state) {
-        domainListEl.disabled = state;
+        siteListEl.disabled = state;
         whitelistEl.disabled = state;
         for(var key in durationEls) {
           durationEls[key].disabled = state;
