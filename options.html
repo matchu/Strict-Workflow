@@ -11,11 +11,39 @@
       body {
         background: url(icons/work_full.png) no-repeat fixed right bottom;
         font-family: sans-serif;
+        padding: 0 1.5em;
+      }
+      
+      select, input[type=text] {
+        background: none;
+        border: 1px solid #aaa;
+        padding: .25em;
+        -webkit-border-radius: 3px;
+      }
+      
+      #domain-list-wrapper {
+        margin-bottom: 2em;
+      }
+      
+      #domain-list-header {
+        font-weight: bold;
+        margin-bottom: .25em;
+      }
+      
+      #domain-list-header select {
+        font-size: 100%;
+        font-weight: bold;
+        padding: 0;
       }
 
       #domain-list {
+        border: 1px solid #aaa;
         height: 15em;
         width: 25em;
+      }
+      
+      #domain-list-wrapper .note {
+        width: 33em;
       }
 
       p {
@@ -40,6 +68,7 @@
       #work-block-info {
         color: red;
         display: none;
+        width: 25em;
       }
 
       body.work #work-block-info {
@@ -60,7 +89,11 @@
       }
       
       .note {
+        color: #333;
         font-size: 75%;
+      }
+      
+      label .note {
         margin-left: 2em;
         margin-top: 0;
       }
@@ -72,24 +105,30 @@
   </head>
   <body>
     <h1>Strict Pomodoro Settings</h1>
-    <p>
-      Block/Allow domain names by entering one per line below. Entering
-      "www.example.com" will <em>only</em> affect that domain and not
-      "mail.example.com", but "example.com" will affect all subdomains.
-    </p>
-    <p>
-      If you specify a path, then only URLs that start with that path will be
-      blocked/allowed. Entering "google.com/reader" will affect Google Reader, but will
-      not affect Gmail, search results, or other Google.com pages.
-    </p>
     <p id="work-block-info">
-      To help remove temptation, you may not change these settings until a
-      break session starts. Patience, grasshopper.
+      To remove temptation, some settings cannot be edited during a work
+      session. Patience, please.
     </p>
     <form id="options-form">
-      <div>
+      <div id="domain-list-wrapper">
+        <header id="domain-list-header">
+          <select id="blacklist-or-whitelist">
+            <option>Block</option>
+            <option>Only allow</option>
+          </select>
+          the sites on this list:
+        </header>
         <textarea id="domain-list"></textarea>
-        <p><label><input id="white-list" type="checkbox"> Whitelist instead of blacklist?</label></p>
+        <p class="note">
+          Enter one site per line, like "youtube.com" or "google.com/reader/".
+          We'll block/allow all URLs with that base.
+        </p>
+        <p class="note">
+          For example, "mail.example.com" won't match "www.example.com", but
+          "example.com" will match both. Similarly, "google.com/reader/" will
+          match Google Reader, but will not match Google Search, Gmail, or any
+          other Google service.
+        </p>
       </div>
       <div id="durations">
         <label for="work-duration">Work:</label>
@@ -112,11 +151,11 @@
         <input id="click-resets" type="checkbox">
         <label for="click-resets">
           Clicking on a running timer restarts it
+          <p class="note">
+            By the strictness philosophy, the only way to <em>cancel</em> a
+            running timer is to disable the extension.
+          </p>
         </label>
-        <p class="note">
-          By the strictness philosophy, the only way to <em>cancel</em> a
-          running timer is to disable the extension.
-        </p>
       </div>       
       <button type="submit" id="save-button">Save changes</button>
       <span id="save-successful">Save successful</span>
@@ -124,7 +163,7 @@
     <script type="text/javascript">
       var form = document.getElementById('options-form'),
         domainListEl = document.getElementById('domain-list'),
-        whitelistEl = document.getElementById('white-list'),
+        whitelistEl = document.getElementById('blacklist-or-whitelist'),
         shouldRingEl = document.getElementById('should-ring'),
         clickRestartsEl = document.getElementById('click-resets'),
         saveSuccessfulEl = document.getElementById('save-successful'),
@@ -140,6 +179,7 @@
       form.onsubmit = function () {
         console.log("form submitted");
         var durations = {}, duration, durationStr, durationMatch;
+        
         for(var key in durationEls) {
           durationStr = durationEls[key].value;
           durationMatch = durationStr.match(TIME_REGEX);
@@ -158,11 +198,11 @@
         console.log(durations);
         
         background.setPrefs({
-          domainList: domainListEl.value.split(/\r?\n/),
+          domainList:      domainListEl.value.split(/\r?\n/),
           durations:       durations,
           shouldRing:      shouldRingEl.checked,
           clickRestarts:   clickRestartsEl.checked,
-          whitelist:  whitelistEl.checked
+          whitelist:       whitelistEl.selectedIndex == 1
         })
         saveSuccessfulEl.className = 'show';
         return false;
@@ -171,6 +211,7 @@
       domainListEl.onfocus = formAltered;
       shouldRingEl.onchange = formAltered;
       clickRestartsEl.onchange = formAltered;
+      whitelistEl.onchange = formAltered;
 
       function formAltered() {
         saveSuccessfulEl.removeAttribute('class');
@@ -178,9 +219,9 @@
       }
 
       domainListEl.value = background.PREFS.domainList.join("\n");
-      whitelistEl.checked = background.PREFS.whitelist;
       shouldRingEl.checked = background.PREFS.shouldRing;
       clickRestartsEl.checked = background.PREFS.clickRestarts;
+      whitelistEl.selectedIndex = background.PREFS.whitelist ? 1 : 0;
       
       var duration, minutes, seconds;
       for(var key in durationEls) {
