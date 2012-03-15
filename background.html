@@ -196,7 +196,7 @@
 
     function parseLocation(location) {
       var components = location.split('/');
-      return {domain: components[0], path: components[1]};
+      return {domain: components.shift(), path: components.join('/')};
     }
 
     function pathsMatch(test, against) {
