@@ -14,6 +14,6 @@
    "manifest_version": 2,
    "name": "Strict Pomodoro",
    "options_page": "options.html",
-   "permissions": [ "notifications", "tabs", "*://*/*" ],
-   "version": "1.5.0.3"
+   "permissions": [ "notifications", "tabs", "<all_urls>" ],
+   "version": "1.5.0.4"
 }
