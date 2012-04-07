@@ -2,8 +2,8 @@
   function ready() {
     if(!document.getElementById('matchu-pomodoro-extension-overlay')) {
       var overlay = document.createElement('div'), lines = [
-        'Page blocked until a Pomodoro break session starts.',
-        'Back to work!'
+        chrome.i18n.getMessage("site_blocked_info"),
+        chrome.i18n.getMessage("site_blocked_motivator")
       ], p, img = document.createElement('img');
       overlay.id = 'matchu-pomodoro-extension-overlay';
       overlay.style.position = 'fixed';

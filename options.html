@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Strict Pomodoro Settings</title>
+    <title data-i18n="options_title"></title>
     <style type="text/css">
       html {
         height: 100%;
@@ -83,7 +83,7 @@
         font-weight: bold;
       }
       
-      #durations span {
+      #durations .minutes {
         font-size: 85%;
         margin-right: 1.5em;
       }
@@ -104,61 +104,47 @@
     </style>
   </head>
   <body>
-    <h1>Strict Pomodoro Settings</h1>
-    <p id="work-block-info">
-      To remove temptation, some settings cannot be edited during a work
-      session. Patience, please.
-    </p>
+    <h1 data-i18n="options_title"></h1>
+    <p id="work-block-info" data-i18n="options_work_block_info"></p>
     <form id="options-form">
       <div id="site-list-wrapper">
         <header id="site-list-header">
           <select id="blacklist-or-whitelist">
-            <option>Block</option>
-            <option>Only allow</option>
+            <option data-i18n="options_blacklist_verb"></option>
+            <option data-i18n="options_whitelist_verb"></option>
           </select>
-          the sites on this list:
+          <span data-i18n="options_site_list_header"></span>
         </header>
         <textarea id="site-list"></textarea>
-        <p class="note">
-          Enter one site per line, like "youtube.com" or "google.com/reader/".
-          We'll block/allow all URLs with that base.
-        </p>
-        <p class="note">
-          For example, "mail.example.com" won't match "www.example.com", but
-          "example.com" will match both. Similarly, "google.com/reader/" will
-          match Google Reader, but will not match Google Search, Gmail, or any
-          other Google service.
-        </p>
+        <p class="note" data-i18n="options_site_list_info"></p>
+        <p class="note" data-i18n="options_site_list_syntax"></p>
       </div>
       <div id="durations">
-        <label for="work-duration">Work:</label>
+        <label for="work-duration">
+          <span data-i18n="work" data-i18n-caps></span>:
+        </label>
         <input id="work-duration" type="text" size="2" />
-        <span>minutes</span>
-        <label for="break-duration">Break:</label>
+        <span class="minutes" data-i18n="minutes"></span>
+        <label for="break-duration">
+          <span data-i18n="break" data-i18n-caps></span>:
+        </label>
         <input id="break-duration" type="text" size="2" />
-        <span>minutes</span>
-        <span id="time-format-error">
-          Time must be in the format MM or MM:SS
-        </span>
+        <span class="minutes" data-i18n="minutes"></span>
+        <span id="time-format-error" data-i18n="options_time_format_error"></span>
       </div>
       <div>
         <input id="should-ring" type="checkbox">
-        <label for="should-ring">
-          Ring when a timer finishes (audio)
-        </label>
+        <label for="should-ring" data-i18n="options_should_ring"></label>
       </div>
       <div>
-        <input id="click-resets" type="checkbox">
-        <label for="click-resets">
-          Clicking on a running timer restarts it
-          <p class="note">
-            By the strictness philosophy, the only way to <em>cancel</em> a
-            running timer is to disable the extension.
-          </p>
+        <input id="click-restarts" type="checkbox">
+        <label for="click-restarts">
+          <span data-i18n="options_click_restarts"></span>
+          <p class="note" data-i18n="options_click_restarts_note"></p>
         </label>
       </div>       
-      <button type="submit" id="save-button">Save changes</button>
-      <span id="save-successful">Save successful</span>
+      <button type="submit" id="save-button" data-i18n="options_save_changes"></button>
+      <span id="save-successful" data-i18n="options_save_successful"></span>
     </form>
     <script type="text/javascript" src="options.js"></script>
   </body>

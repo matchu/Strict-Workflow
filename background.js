@@ -285,10 +285,12 @@ var notification, mainPomodoro = new Pomodoro({
         path: ICONS.ACTION.PENDING[timer.pomodoro.nextMode]
       });
       chrome.browserAction.setBadgeText({text: ''});
+      
+      var nextModeName = chrome.i18n.getMessage(timer.pomodoro.nextMode);
       notification = webkitNotifications.createNotification(
         ICONS.FULL[timer.type],
-        "Time's up!",
-        "Time for the " + timer.pomodoro.nextMode + " phase :)"
+        chrome.i18n.getMessage("timer_end_notification_header"),
+        chrome.i18n.getMessage("timer_end_notification_body", nextModeName)
       );
       notification.onclick = function () {
         console.log("Will get last focused");

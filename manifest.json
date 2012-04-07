@@ -5,14 +5,15 @@
    "browser_action": {
       "default_icon": "icons/work_pending.png"
    },
-   "description": "Enforces the Pomodoro time management technique by blocking distracting sites",
+   "default_locale": "en",
+   "description": "__MSG_ext_description__",
    "icons": {
       "128": "icons/icon128.png",
       "16": "icons/icon16.png",
       "48": "icons/icon48.png"
    },
    "manifest_version": 2,
-   "name": "Strict Pomodoro",
+   "name": "__MSG_ext_name__",
    "options_page": "options.html",
    "permissions": [ "notifications", "tabs", "<all_urls>" ],
    "version": "1.5.0.5",
