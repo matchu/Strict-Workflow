@@ -1,0 +1,96 @@
+{
+  "ext_description": {
+    "message": "Блокує веб-сайти, котрі вас відволікають, щоб ви могли працювати відповідно до техніки керування часом «помодоро».",
+    "description": "Description of the extension"
+  },
+  
+  "work": {
+    "message": "працювати",
+    "description": "The name of the work timer"
+  },
+  "break": {
+    "message": "відпочивати",
+    "description": "The name of the break timer"
+  },
+  "minutes": {
+    "message": "хв",
+    "description": "The name of the time interval representing 60 seconds"
+  },
+  
+  "site_blocked_info": {
+    "message": "Сторінку заблоковано до завершення робочого часу Помідорки.",
+    "description": "Text for the blocked-site overlay, explaining that the site is blocked and when it will become unblocked"
+  },
+  "site_blocked_motivator": {
+    "message": "Повертайтеся до роботи!",
+    "description": "Text for the blocked-site overlay, motivating the user to get back to work"
+  },
+  
+  "options_title": {
+    "message": "Налаштування Суворої помідорки",
+    "description": "The title of the options page"
+  },
+  "options_blacklist_verb": {
+    "message": "Блокувати",
+    "description": "On options page, the dropdown option that indicates the sites are a blacklist"
+  },
+  "options_whitelist_verb": {
+    "message": "Дозволяти",
+    "description": "On options page, the dropdown option that indicates the sites are a whitelist"
+  },
+  "options_site_list_header": {
+    "message": "наступні сайти:",
+    "description": "On the options page, the message above the site list (with the block/only-allow dropdown before it)"
+  },
+  "options_site_list_info": {
+    "message": "Введіть по одному сайту на рядок у вигляді «youtube.com» чи «google.com/reader». Помідорка заблокує/дозволить усі похідні адреси.",
+    "description": "On the options page, explains what the site list does"
+  },
+  "options_site_list_syntax": {
+    "message": "Введення «mail.example.com» заблокує лише цей конкретний домен, а не, наприклад, «www.example.com». Введення простого «example.com» вирішить цю неприємність. Аналогічно, введення «google.com/reader» заблокує гуглочитанку, а гуглопошта та інші гуглосервіси залишаться на місці.",
+    "description": "On the options page, explains the details of the syntax of the site list"
+  },
+  "options_work_block_info": {
+    "message": "Щоб позбавити вас спокуси, Помідорка не дозволяє змінювати деякі параметри в робочий час. Будь ласка, дочекайтеся перерви.",
+    "description": "On options page, message shown during a work session to indicate that some options are disabled"
+  },
+  "options_time_format_error": {
+    "message": "Час має бути задано у вигляді «хх» або «хх:сс»",
+    "description": "On the options page, error message indicating bad format for timer duration"
+  },
+  "options_should_ring": {
+    "message": "Дзвеніти, коли лічильник дійде до нуля (буде зі звуком)",
+    "description": "On the options page, label for the checkbox that enables/disables ringing sound at the end of a timer"
+  },
+  "options_click_restarts": {
+    "message": "Натиснення на працюючий лічильник перезапускає його",
+    "description": "On the options page, label for the checkbox that enables/disables the feature that clicking on a running timer restarts it"
+  },
+  "options_click_restarts_note": {
+    "message": "У відповідності до суворих правил, єдиним способом <em>зупинки</em> лічильника є відключення розширення.",
+    "description": "On the options page, note below the label for the click-restarts checkbox explaining that this will not allow users to *cancel* a running timer"
+  },
+  "options_save_changes": {
+    "message": "Зберегти зміни",
+    "description": "On the options page, text for the submit button"
+  },
+  "options_save_successful": {
+    "message": "Зміни збережено",
+    "description": "On the options page, message to indicate that the options have been saved"
+  },
+  
+  "timer_end_notification_header": {
+    "message": "Час вичерпано!",
+    "description": "Bold header of pop-up notification when a timer ends"
+  },
+  "timer_end_notification_body": {
+    "message": "Пора $TYPE$.",
+    "description": "Body of pop-up notification when a timer ends",
+    "placeholders": {
+      "type": {
+        "content": "$1",
+        "example": "work"
+      }
+    }
+  }
+}
