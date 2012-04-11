@@ -23,6 +23,7 @@ for(var i = 0; i < localizedElements.length; i++) {
 var form = document.getElementById('options-form'),
   siteListEl = document.getElementById('site-list'),
   whitelistEl = document.getElementById('blacklist-or-whitelist'),
+  showNotificationsEl = document.getElementById('show-notifications'),
   shouldRingEl = document.getElementById('should-ring'),
   clickRestartsEl = document.getElementById('click-restarts'),
   saveSuccessfulEl = document.getElementById('save-successful'),
@@ -57,17 +58,19 @@ form.onsubmit = function () {
   console.log(durations);
   
   background.setPrefs({
-    siteList:        siteListEl.value.split(/\r?\n/),
-    durations:       durations,
-    shouldRing:      shouldRingEl.checked,
-    clickRestarts:   clickRestartsEl.checked,
-    whitelist:       whitelistEl.selectedIndex == 1
+    siteList:           siteListEl.value.split(/\r?\n/),
+    durations:          durations,
+    showNotifications:  showNotificationsEl.checked,
+    shouldRing:         shouldRingEl.checked,
+    clickRestarts:      clickRestartsEl.checked,
+    whitelist:          whitelistEl.selectedIndex == 1
   })
   saveSuccessfulEl.className = 'show';
   return false;
 }
 
 siteListEl.onfocus = formAltered;
+showNotificationsEl.onchange = formAltered;
 shouldRingEl.onchange = formAltered;
 clickRestartsEl.onchange = formAltered;
 whitelistEl.onchange = formAltered;
@@ -78,6 +81,7 @@ function formAltered() {
 }
 
 siteListEl.value = background.PREFS.siteList.join("\n");
+showNotificationsEl.checked = background.PREFS.showNotifications;
 shouldRingEl.checked = background.PREFS.shouldRing;
 clickRestartsEl.checked = background.PREFS.clickRestarts;
 whitelistEl.selectedIndex = background.PREFS.whitelist ? 1 : 0;

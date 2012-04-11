@@ -62,6 +62,10 @@
     "message": "Time must be in the format MM or MM:SS",
     "description": "On the options page, error message indicating bad format for timer duration"
   },
+  "options_show_notifications": {
+    "message": "Show a notification when a timer finishes",
+    "description": "On the options page, label for the checkbox that enables/disables the notification at the end of a timer"
+  },
   "options_should_ring": {
     "message": "Ring when a timer finishes (audio)",
     "description": "On the options page, label for the checkbox that enables/disables ringing sound at the end of a timer"

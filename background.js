@@ -60,6 +60,12 @@ function updatePrefsFormat(prefs) {
     delete prefs.domainBlacklist;
     savePrefs(prefs);
     console.log("Renamed PREFS.domainBlacklist to PREFS.siteList");
+  } else if(!prefs.hasOwnProperty('showNotifications')) {
+    // Upon adding the option to disable notifications, added the
+    // showNotifications property, which defaults to true.
+    prefs.showNotifications = true;
+    savePrefs(prefs);
+    console.log("Added PREFS.showNotifications");
   }
   
   return prefs;
@@ -286,20 +292,23 @@ var notification, mainPomodoro = new Pomodoro({
       });
       chrome.browserAction.setBadgeText({text: ''});
       
-      var nextModeName = chrome.i18n.getMessage(timer.pomodoro.nextMode);
-      notification = webkitNotifications.createNotification(
-        ICONS.FULL[timer.type],
-        chrome.i18n.getMessage("timer_end_notification_header"),
-        chrome.i18n.getMessage("timer_end_notification_body", nextModeName)
-      );
-      notification.onclick = function () {
-        console.log("Will get last focused");
-        chrome.windows.getLastFocused(function (window) {
-          chrome.windows.update(window.id, {focused: true});
-        });
-        this.cancel();
-      };
-      notification.show();
+      if(PREFS.showNotifications) {
+        var nextModeName = chrome.i18n.getMessage(timer.pomodoro.nextMode);
+        notification = webkitNotifications.createNotification(
+          ICONS.FULL[timer.type],
+          chrome.i18n.getMessage("timer_end_notification_header"),
+          chrome.i18n.getMessage("timer_end_notification_body", nextModeName)
+        );
+        notification.onclick = function () {
+          console.log("Will get last focused");
+          chrome.windows.getLastFocused(function (window) {
+            chrome.windows.update(window.id, {focused: true});
+          });
+          this.cancel();
+        };
+        notification.show();
+      }
+      
       if(PREFS.shouldRing) {
         console.log("playing ring", RING);
         RING.play();
