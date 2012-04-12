@@ -313,6 +313,10 @@ var notification, mainPomodoro = new Pomodoro({
         console.log("playing ring", RING);
         RING.play();
       }
+
+      if(timer.pomodoro.nextMode == 'work' && PREFS.autoMode) {
+        timer.pomodoro.start();
+      }
     },
     onStart: function (timer) {
       chrome.browserAction.setIcon({
@@ -357,3 +361,6 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   }
 });
 
+if(PREFS.autoMode) {
+  mainPomodoro.start();
+}

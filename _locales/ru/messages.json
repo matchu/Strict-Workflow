@@ -70,6 +70,10 @@
     "message": "Согласно строгим правилам, единственным способом <em>остановки</em> бегущего счетчика является отключение расширения.",
     "description": "On the options page, note below the label for the click-restarts checkbox explaining that this will not allow users to *cancel* a running timer"
   },
+  "options_auto_mode": {
+    "message": "Автоматически запускать счетчик при запуске браузера и после паузы.",
+    "description": "On the options page, label for the checkbox that enables/disables the automcatic mode"
+  },
   "options_save_changes": {
     "message": "Сохранить изменения",
     "description": "On the options page, text for the submit button"
