@@ -58,6 +58,10 @@
     "message": "Час має бути задано у вигляді «хх» або «хх:сс»",
     "description": "On the options page, error message indicating bad format for timer duration"
   },
+  "options_show_notifications": {
+    "message": "Показувати повідомлення, коли лічильник дійде до нуля",
+    "description": "On the options page, label for the checkbox that enables/disables the notification at the end of a timer"
+  },
   "options_should_ring": {
     "message": "Дзвеніти, коли лічильник дійде до нуля (буде зі звуком)",
     "description": "On the options page, label for the checkbox that enables/disables ringing sound at the end of a timer"

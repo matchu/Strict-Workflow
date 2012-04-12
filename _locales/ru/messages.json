@@ -58,6 +58,10 @@
     "message": "Время должно быть задано в формате «мм» или «мм:сс»",
     "description": "On the options page, error message indicating bad format for timer duration"
   },
+  "options_show_notifications": {
+    "message": "Показывать уведомления, когда счетчик достигнет нуля",
+    "description": "On the options page, label for the checkbox that enables/disables the notification at the end of a timer"
+  },
   "options_should_ring": {
     "message": "Звенеть, когда счетчик достигнет нуля (будет звук)",
     "description": "On the options page, label for the checkbox that enables/disables ringing sound at the end of a timer"
