@@ -60,7 +60,9 @@ function updatePrefsFormat(prefs) {
     delete prefs.domainBlacklist;
     savePrefs(prefs);
     console.log("Renamed PREFS.domainBlacklist to PREFS.siteList");
-  } else if(!prefs.hasOwnProperty('showNotifications')) {
+  }
+  
+  if(!prefs.hasOwnProperty('showNotifications')) {
     // Upon adding the option to disable notifications, added the
     // showNotifications property, which defaults to true.
     prefs.showNotifications = true;
