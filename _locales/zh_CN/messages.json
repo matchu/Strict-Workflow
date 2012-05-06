@@ -1,0 +1,104 @@
+{
+  "ext_name": {
+    "message": "Strict Pomodoro",
+    "description": "Name of the extension"
+  },
+  "ext_description": {
+    "message": "实践番茄工作法：工作时屏蔽浪费时间的网站，休息时允许访问。",
+    "description": "Description of the extension"
+  },
+  
+  "work": {
+    "message": "工作",
+    "description": "The name of the work timer"
+  },
+  "break": {
+    "message": "休息",
+    "description": "The name of the break timer"
+  },
+  "minutes": {
+    "message": "分钟",
+    "description": "The name of the time interval representing 60 seconds"
+  },
+  
+  "site_blocked_info": {
+    "message": "页面在休息时间开始前被屏蔽。",
+    "description": "Text for the blocked-site overlay, explaining that the site is blocked and when it will become unblocked"
+  },
+  "site_blocked_motivator": {
+    "message": "回到工作中去!",
+    "description": "Text for the blocked-site overlay, motivating the user to get back to work"
+  },
+  
+  "options_title": {
+    "message": "Strict Pomodoro 选项",
+    "description": "The title of the options page"
+  },
+  "options_blacklist_verb": {
+    "message": "屏蔽",
+    "description": "On options page, the dropdown option that indicates the sites are a blacklist"
+  },
+  "options_whitelist_verb": {
+    "message": "只允许",
+    "description": "On options page, the dropdown option that indicates the sites are a whitelist"
+  },
+  "options_site_list_header": {
+    "message": "以下网站:",
+    "description": "On the options page, the message above the site list (with the block/only-allow dropdown before it)"
+  },
+  "options_site_list_info": {
+    "message": "每行输入一个网站域名，例如  \"youku.com\" or \"google.com/reader/\"。 我会允许/屏蔽含有此的URL（网址）。",
+    "description": "On the options page, explains what the site list does"
+  },
+  "options_site_list_syntax": {
+    "message": "例如, \"mail.example.com\"不会匹配 \"www.example.com\", 但 \"example.com\"会匹配以上两者。 类似地, \"google.com/reader/\" 会匹配 Google Reader（谷歌阅读器）, 但不会匹配 Google Search（谷歌搜索）, Gmail,或者其它Google 服务。",
+    "description": "On the options page, explains the details of the syntax of the site list"
+  },
+  "options_work_block_info": {
+    "message": "为了防止工作时中断的浮躁心情，有的选项在工作区间不能编辑。请等到休息区间编辑，请有耐心！",
+    "description": "On options page, message shown during a work session to indicate that some options are disabled"
+  },
+  "options_time_format_error": {
+    "message": "时间格式必须是 MM or MM:SS",
+    "description": "On the options page, error message indicating bad format for timer duration"
+  },
+  "options_show_notifications": {
+    "message": "倒计时结束时在右下角显示通知",
+    "description": "On the options page, label for the checkbox that enables/disables the notification at the end of a timer"
+  },
+  "options_should_ring": {
+    "message": "当倒计时结束时响铃提示",
+    "description": "On the options page, label for the checkbox that enables/disables ringing sound at the end of a timer"
+  },
+  "options_click_restarts": {
+    "message": "点击正在运行的倒计时，则重新开始倒计时",
+    "description": "On the options page, label for the checkbox that enables/disables the feature that clicking on a running timer restarts it"
+  },
+  "options_click_restarts_note": {
+    "message": "为了严格限制,  <em>取消</em>一个正在进行的倒计时的唯一方法是禁用此扩展。",
+    "description": "On the options page, note below the label for the click-restarts checkbox explaining that this will not allow users to *cancel* a running timer"
+  },
+  "options_save_changes": {
+    "message": "保存设置",
+    "description": "On the options page, text for the submit button"
+  },
+  "options_save_successful": {
+    "message": "保存成功",
+    "description": "On the options page, message to indicate that the options have been saved"
+  },
+  
+  "timer_end_notification_header": {
+    "message": "时间到!",
+    "description": "Bold header of pop-up notification when a timer ends"
+  },
+  "timer_end_notification_body": {
+    "message": "该是 $TYPE$ 的时间了。",
+    "description": "Body of pop-up notification when a timer ends",
+    "placeholders": {
+      "type": {
+        "content": "$1",
+        "example": "work"
+      }
+    }
+  }
+}
