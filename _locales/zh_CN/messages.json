@@ -4,7 +4,7 @@
     "description": "Name of the extension"
   },
   "ext_description": {
-    "message": "Enforces the Pomodoro time management technique by blocking distractions during work timers, then unblocking during breaks",
+    "message": "实践番茄工作法：工作时屏蔽浪费时间的网站，休息时允许访问。",
     "description": "Description of the extension"
   },
   
@@ -47,52 +47,52 @@
     "description": "On the options page, the message above the site list (with the block/only-allow dropdown before it)"
   },
   "options_site_list_info": {
-    "message": "Enter one site per line, like \"youtube.com\" or \"google.com/reader/\". We'll block/allow all URLs with that base.",
+    "message": "每行输入一个网站域名，例如  \"youku.com\" or \"google.com/reader/\"。 我会允许/屏蔽含有此的URL（网址）。",
     "description": "On the options page, explains what the site list does"
   },
   "options_site_list_syntax": {
-    "message": "For example, \"mail.example.com\" won't match \"www.example.com\", but \"example.com\" will match both. Similarly, \"google.com/reader/\" will match Google Reader, but will not match Google Search, Gmail, or any other Google service.",
+    "message": "例如, \"mail.example.com\"不会匹配 \"www.example.com\", 但 \"example.com\"会匹配以上两者。 类似地, \"google.com/reader/\" 会匹配 Google Reader（谷歌阅读器）, 但不会匹配 Google Search（谷歌搜索）, Gmail,或者其它Google 服务。",
     "description": "On the options page, explains the details of the syntax of the site list"
   },
   "options_work_block_info": {
-    "message": "To remove temptation, some options cannot be edited during a work session. Patience, please.",
+    "message": "为了防止工作时中断的浮躁心情，有的选项在工作区间不能编辑。请等到休息区间编辑，请有耐心！",
     "description": "On options page, message shown during a work session to indicate that some options are disabled"
   },
   "options_time_format_error": {
-    "message": "Time must be in the format MM or MM:SS",
+    "message": "时间格式必须是 MM or MM:SS",
     "description": "On the options page, error message indicating bad format for timer duration"
   },
   "options_show_notifications": {
-    "message": "Show a notification when a timer finishes",
+    "message": "倒计时结束时在右下角显示通知",
     "description": "On the options page, label for the checkbox that enables/disables the notification at the end of a timer"
   },
   "options_should_ring": {
-    "message": "Ring when a timer finishes (audio)",
+    "message": "当倒计时结束时响铃提示",
     "description": "On the options page, label for the checkbox that enables/disables ringing sound at the end of a timer"
   },
   "options_click_restarts": {
-    "message": "Clicking on a running timer restarts it",
+    "message": "点击正在运行的倒计时，则重新开始倒计时",
     "description": "On the options page, label for the checkbox that enables/disables the feature that clicking on a running timer restarts it"
   },
   "options_click_restarts_note": {
-    "message": "By the strictness philosophy, the only way to <em>cancel</em> a running timer is to disable the extension.",
+    "message": "为了严格限制,  <em>取消</em>一个正在进行的倒计时的唯一方法是禁用此扩展。",
     "description": "On the options page, note below the label for the click-restarts checkbox explaining that this will not allow users to *cancel* a running timer"
   },
   "options_save_changes": {
-    "message": "Save changes",
+    "message": "保存设置",
     "description": "On the options page, text for the submit button"
   },
   "options_save_successful": {
-    "message": "Save successful",
+    "message": "保存成功",
     "description": "On the options page, message to indicate that the options have been saved"
   },
   
   "timer_end_notification_header": {
-    "message": "Time's up!",
+    "message": "时间到!",
     "description": "Bold header of pop-up notification when a timer ends"
   },
   "timer_end_notification_body": {
-    "message": "Time for the $TYPE$ phase.",
+    "message": "该是 $TYPE$ 的时间了。",
     "description": "Body of pop-up notification when a timer ends",
     "placeholders": {
       "type": {
