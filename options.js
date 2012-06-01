@@ -23,6 +23,7 @@ for(var i = 0; i < localizedElements.length; i++) {
 var form = document.getElementById('options-form'),
   siteListEl = document.getElementById('site-list'),
   whitelistEl = document.getElementById('blacklist-or-whitelist'),
+  unblockBreaksOnlyEl = document.getElementById('break-unblock-only'),
   showNotificationsEl = document.getElementById('show-notifications'),
   shouldRingEl = document.getElementById('should-ring'),
   clickRestartsEl = document.getElementById('click-restarts'),
@@ -63,6 +64,7 @@ form.onsubmit = function () {
     showNotifications:  showNotificationsEl.checked,
     shouldRing:         shouldRingEl.checked,
     clickRestarts:      clickRestartsEl.checked,
+    unblockBreaksOnly:  unblockBreaksOnlyEl.checked,
     whitelist:          whitelistEl.selectedIndex == 1
   })
   saveSuccessfulEl.className = 'show';
@@ -72,6 +74,7 @@ form.onsubmit = function () {
 siteListEl.onfocus = formAltered;
 showNotificationsEl.onchange = formAltered;
 shouldRingEl.onchange = formAltered;
+unblockBreaksOnlyEl.onchange = formAltered;
 clickRestartsEl.onchange = formAltered;
 whitelistEl.onchange = formAltered;
 
@@ -83,6 +86,7 @@ function formAltered() {
 siteListEl.value = background.PREFS.siteList.join("\n");
 showNotificationsEl.checked = background.PREFS.showNotifications;
 shouldRingEl.checked = background.PREFS.shouldRing;
+unblockBreaksOnlyEl.checked = background.PREFS.unblockBreaksOnly;
 clickRestartsEl.checked = background.PREFS.clickRestarts;
 whitelistEl.selectedIndex = background.PREFS.whitelist ? 1 : 0;
 
