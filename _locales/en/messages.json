@@ -86,6 +86,10 @@
     "message": "Save successful",
     "description": "On the options page, message to indicate that the options have been saved"
   },
+  "options_break_unblock_only": {
+    "message": "Unblock sites on breaks only",
+    "description": "On the options page, label for the checkbox to unblock sites on breaks only"
+  },
   
   "timer_end_notification_header": {
     "message": "Time's up!",

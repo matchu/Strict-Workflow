@@ -34,7 +34,8 @@ function defaultPrefs() {
     },
     shouldRing: true,
     clickRestarts: false,
-    whitelist: false
+    whitelist: false,
+    unblockBreaksOnly: false
   }
 }
 
@@ -309,6 +310,9 @@ var notification, mainPomodoro = new Pomodoro({
           this.cancel();
         };
         notification.show();
+      }
+      if(PREFS.unblockBreaksOnly && timer.type !== 'work') {
+        executeInAllBlockedTabs('block');
       }
       
       if(PREFS.shouldRing) {
