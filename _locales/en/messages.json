@@ -78,6 +78,10 @@
     "message": "By the strictness philosophy, the only way to <em>cancel</em> a running timer is to disable the extension.",
     "description": "On the options page, note below the label for the click-restarts checkbox explaining that this will not allow users to *cancel* a running timer"
   },
+  "options_auto_mode": {
+    "message": "Will trigger timer automatically on browser launch and at the end of pause.",
+    "description": "On the options page, label for the checkbox that enables/disables the automcatic mode"
+  },
   "options_save_changes": {
     "message": "Save changes",
     "description": "On the options page, text for the submit button"

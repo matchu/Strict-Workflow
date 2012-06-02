@@ -28,6 +28,7 @@ var form = document.getElementById('options-form'),
   clickRestartsEl = document.getElementById('click-restarts'),
   saveSuccessfulEl = document.getElementById('save-successful'),
   timeFormatErrorEl = document.getElementById('time-format-error'),
+  autoModeEl = document.getElementById('auto-mode'),
   background = chrome.extension.getBackgroundPage(),
   startCallbacks = {}, durationEls = {};
   
@@ -63,6 +64,7 @@ form.onsubmit = function () {
     showNotifications:  showNotificationsEl.checked,
     shouldRing:         shouldRingEl.checked,
     clickRestarts:      clickRestartsEl.checked,
+    autoMode:           autoModeEl.checked,
     whitelist:          whitelistEl.selectedIndex == 1
   })
   saveSuccessfulEl.className = 'show';
@@ -74,6 +76,7 @@ showNotificationsEl.onchange = formAltered;
 shouldRingEl.onchange = formAltered;
 clickRestartsEl.onchange = formAltered;
 whitelistEl.onchange = formAltered;
+autoModeEl.onchange = formAltered;
 
 function formAltered() {
   saveSuccessfulEl.removeAttribute('class');
@@ -85,6 +88,7 @@ showNotificationsEl.checked = background.PREFS.showNotifications;
 shouldRingEl.checked = background.PREFS.shouldRing;
 clickRestartsEl.checked = background.PREFS.clickRestarts;
 whitelistEl.selectedIndex = background.PREFS.whitelist ? 1 : 0;
+autoModeEl.checked = background.PREFS.autoMode;
 
 var duration, minutes, seconds;
 for(var key in durationEls) {

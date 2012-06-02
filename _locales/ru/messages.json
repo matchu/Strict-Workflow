@@ -58,6 +58,10 @@
     "message": "Время должно быть задано в формате «мм» или «мм:сс»",
     "description": "On the options page, error message indicating bad format for timer duration"
   },
+  "options_show_notifications": {
+    "message": "Показывать уведомления, когда счетчик достигнет нуля",
+    "description": "On the options page, label for the checkbox that enables/disables the notification at the end of a timer"
+  },
   "options_should_ring": {
     "message": "Звенеть, когда счетчик достигнет нуля (будет звук)",
     "description": "On the options page, label for the checkbox that enables/disables ringing sound at the end of a timer"
@@ -69,6 +73,10 @@
   "options_click_restarts_note": {
     "message": "Согласно строгим правилам, единственным способом <em>остановки</em> бегущего счетчика является отключение расширения.",
     "description": "On the options page, note below the label for the click-restarts checkbox explaining that this will not allow users to *cancel* a running timer"
+  },
+  "options_auto_mode": {
+    "message": "Автоматически запускать счетчик при запуске браузера и после паузы.",
+    "description": "On the options page, label for the checkbox that enables/disables the automcatic mode"
   },
   "options_save_changes": {
     "message": "Сохранить изменения",

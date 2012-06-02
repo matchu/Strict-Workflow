@@ -58,6 +58,10 @@
     "message": "Час має бути задано у вигляді «хх» або «хх:сс»",
     "description": "On the options page, error message indicating bad format for timer duration"
   },
+  "options_show_notifications": {
+    "message": "Показувати повідомлення, коли лічильник дійде до нуля",
+    "description": "On the options page, label for the checkbox that enables/disables the notification at the end of a timer"
+  },
   "options_should_ring": {
     "message": "Дзвеніти, коли лічильник дійде до нуля (буде зі звуком)",
     "description": "On the options page, label for the checkbox that enables/disables ringing sound at the end of a timer"
@@ -69,6 +73,10 @@
   "options_click_restarts_note": {
     "message": "У відповідності до суворих правил, єдиним способом <em>зупинки</em> лічильника є відключення розширення.",
     "description": "On the options page, note below the label for the click-restarts checkbox explaining that this will not allow users to *cancel* a running timer"
+  },
+  "options_auto_mode": {
+    "message": "Автоматично запускати лічильник при запуску браузера і по завершенні паузи.",
+    "description": "On the options page, label for the checkbox that enables/disables the automcatic mode"
   },
   "options_save_changes": {
     "message": "Зберегти зміни",
