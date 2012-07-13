@@ -21,7 +21,8 @@ for(var i = 0; i < localizedElements.length; i++) {
 */
 
 var form = document.getElementById('options-form'),
-  siteListEl = document.getElementById('site-list'),
+  domainWhitelistEl = document.getElementById('whitelist'),
+  domainBlacklistEl = document.getElementById('blacklist'),
   whitelistEl = document.getElementById('blacklist-or-whitelist'),
   showNotificationsEl = document.getElementById('show-notifications'),
   shouldRingEl = document.getElementById('should-ring'),
@@ -58,7 +59,8 @@ form.onsubmit = function () {
   console.log(durations);
   
   background.setPrefs({
-    siteList:           siteListEl.value.split(/\r?\n/),
+    domainWhitelist:    domainWhitelistEl.value.split(/\r?\n/),
+    domainBlacklist:    domainBlacklistEl.value.split(/\r?\n/),
     durations:          durations,
     showNotifications:  showNotificationsEl.checked,
     shouldRing:         shouldRingEl.checked,
@@ -69,22 +71,35 @@ form.onsubmit = function () {
   return false;
 }
 
-siteListEl.onfocus = formAltered;
+domainBlacklistEl.onfocus = formAltered;
+domainWhitelistEl.onfocus = formAltered;
 showNotificationsEl.onchange = formAltered;
 shouldRingEl.onchange = formAltered;
 clickRestartsEl.onchange = formAltered;
-whitelistEl.onchange = formAltered;
+whitelistEl.onchange = function() { setListVisibility(); formAltered(); };
+
+function setListVisibility() {
+  if (whitelistEl.selectedIndex) {
+    domainBlacklistEl.style.display = 'none';
+    domainWhitelistEl.style.display = 'inline';
+  } else {
+    domainBlacklistEl.style.display = 'inline';
+    domainWhitelistEl.style.display = 'none';
+  }
+}
 
 function formAltered() {
   saveSuccessfulEl.removeAttribute('class');
   timeFormatErrorEl.removeAttribute('class');
 }
 
-siteListEl.value = background.PREFS.siteList.join("\n");
+domainBlacklistEl.value = background.PREFS.domainBlacklist.join("\n");
+domainWhitelistEl.value = background.PREFS.domainWhitelist.join("\n");
 showNotificationsEl.checked = background.PREFS.showNotifications;
 shouldRingEl.checked = background.PREFS.shouldRing;
 clickRestartsEl.checked = background.PREFS.clickRestarts;
 whitelistEl.selectedIndex = background.PREFS.whitelist ? 1 : 0;
+setListVisibility();
 
 var duration, minutes, seconds;
 for(var key in durationEls) {
@@ -102,7 +117,8 @@ for(var key in durationEls) {
 }
 
 function setInputDisabled(state) {
-  siteListEl.disabled = state;
+  domainBlacklistEl.disabled = state;
+  domainWhitelistEl.disabled = state;
   whitelistEl.disabled = state;
   for(var key in durationEls) {
     durationEls[key].disabled = state;

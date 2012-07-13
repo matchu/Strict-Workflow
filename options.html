@@ -36,7 +36,7 @@
         padding: 0;
       }
 
-      #site-list {
+      .site-list {
         border: 1px solid #aaa;
         height: 15em;
         width: 25em;
@@ -115,7 +115,8 @@
           </select>
           <span data-i18n="options_site_list_header"></span>
         </header>
-        <textarea id="site-list"></textarea>
+        <textarea id="whitelist" class="site-list" ></textarea>
+        <textarea id="blacklist" class="site-list" ></textarea>
         <p class="note" data-i18n="options_site_list_info"></p>
         <p class="note" data-i18n="options_site_list_syntax"></p>
       </div>
