@@ -15,7 +15,7 @@ loadRingIfNecessary();
 
 function defaultPrefs() {
   return {
-    domainBlacklist: [
+    siteBlacklist: [
       'facebook.com',
       'youtube.com',
       'twitter.com',
@@ -28,7 +28,7 @@ function defaultPrefs() {
       'addictinggames.com',
       'hulu.com'
     ],
-    domainWhitelist: [
+    siteWhitelist: [
       'google.com/calendar',
       'rememberthemilk.com',
       '750words.com'
@@ -59,18 +59,18 @@ function updatePrefsFormat(prefs) {
   
   if(prefs.hasOwnProperty('siteList')) {
     // Upon adding a separate blacklist and whitelist, the siteList property
-    // is renamed to either domainBlacklist or domainWhitelist.
+    // is renamed to either siteBlacklist or siteWhitelist.
     
     if (prefs.whitelist) {
-      prefs.domainBlacklist = defaultPrefs().domainBlacklist;
-      prefs.domainWhitelist = prefs.siteList;
+      prefs.siteBlacklist = defaultPrefs().siteBlacklist;
+      prefs.siteWhitelist = prefs.siteList;
     } else {
-      prefs.domainBlacklist = prefs.siteList;
-      prefs.domainWhitelist = defaultPrefs().domainWhitelist;
+      prefs.siteBlacklist = prefs.siteList;
+      prefs.siteWhitelist = defaultPrefs().siteWhitelist;
     }
     delete prefs.siteList;
     savePrefs(prefs);
-    console.log("Renamed PREFS.siteList to PREFS.domain*lists");
+    console.log("Renamed PREFS.siteList to PREFS.siteBlacklist/siteWhitelist");
   }
   
   if(!prefs.hasOwnProperty('showNotifications')) {
@@ -260,7 +260,7 @@ function domainsMatch(test, against) {
 }
 
 function isLocationBlocked(location) {
-  var siteList = PREFS.whitelist ? PREFS.domainWhitelist : PREFS.domainBlacklist;
+  var siteList = PREFS.whitelist ? PREFS.siteWhitelist : PREFS.siteBlacklist;
   for(var k in siteList) {
     listedPattern = parseLocation(siteList[k]);
     if(locationsMatch(location, listedPattern)) {

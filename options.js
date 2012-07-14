@@ -21,9 +21,9 @@ for(var i = 0; i < localizedElements.length; i++) {
 */
 
 var form = document.getElementById('options-form'),
-  domainWhitelistEl = document.getElementById('whitelist'),
-  domainBlacklistEl = document.getElementById('blacklist'),
-  whitelistEl = document.getElementById('blacklist-or-whitelist'),
+  siteWhitelistEl = document.getElementById('whitelist'),
+  siteBlacklistEl = document.getElementById('blacklist'),
+  whitelistSelectEl = document.getElementById('blacklist-or-whitelist'),
   showNotificationsEl = document.getElementById('show-notifications'),
   shouldRingEl = document.getElementById('should-ring'),
   clickRestartsEl = document.getElementById('click-restarts'),
@@ -59,32 +59,32 @@ form.onsubmit = function () {
   console.log(durations);
   
   background.setPrefs({
-    domainWhitelist:    domainWhitelistEl.value.split(/\r?\n/),
-    domainBlacklist:    domainBlacklistEl.value.split(/\r?\n/),
+    siteWhitelist:    siteWhitelistEl.value.split(/\r?\n/),
+    siteBlacklist:    siteBlacklistEl.value.split(/\r?\n/),
     durations:          durations,
     showNotifications:  showNotificationsEl.checked,
     shouldRing:         shouldRingEl.checked,
     clickRestarts:      clickRestartsEl.checked,
-    whitelist:          whitelistEl.selectedIndex == 1
+    whitelist:          whitelistSelectEl.selectedIndex == 1
   })
   saveSuccessfulEl.className = 'show';
   return false;
 }
 
-domainBlacklistEl.onfocus = formAltered;
-domainWhitelistEl.onfocus = formAltered;
+siteBlacklistEl.onfocus = formAltered;
+siteWhitelistEl.onfocus = formAltered;
 showNotificationsEl.onchange = formAltered;
 shouldRingEl.onchange = formAltered;
 clickRestartsEl.onchange = formAltered;
-whitelistEl.onchange = function() { setListVisibility(); formAltered(); };
+whitelistSelectEl.onchange = function() { setListVisibility(); formAltered(); };
 
 function setListVisibility() {
-  if (whitelistEl.selectedIndex) {
-    domainBlacklistEl.style.display = 'none';
-    domainWhitelistEl.style.display = 'inline';
+  if (whitelistSelectEl.selectedIndex) {
+    siteBlacklistEl.style.display = 'none';
+    siteWhitelistEl.style.display = 'inline';
   } else {
-    domainBlacklistEl.style.display = 'inline';
-    domainWhitelistEl.style.display = 'none';
+    siteBlacklistEl.style.display = 'inline';
+    siteWhitelistEl.style.display = 'none';
   }
 }
 
@@ -93,12 +93,12 @@ function formAltered() {
   timeFormatErrorEl.removeAttribute('class');
 }
 
-domainBlacklistEl.value = background.PREFS.domainBlacklist.join("\n");
-domainWhitelistEl.value = background.PREFS.domainWhitelist.join("\n");
+siteBlacklistEl.value = background.PREFS.siteBlacklist.join("\n");
+siteWhitelistEl.value = background.PREFS.siteWhitelist.join("\n");
 showNotificationsEl.checked = background.PREFS.showNotifications;
 shouldRingEl.checked = background.PREFS.shouldRing;
 clickRestartsEl.checked = background.PREFS.clickRestarts;
-whitelistEl.selectedIndex = background.PREFS.whitelist ? 1 : 0;
+whitelistSelectEl.selectedIndex = background.PREFS.whitelist ? 1 : 0;
 setListVisibility();
 
 var duration, minutes, seconds;
@@ -117,9 +117,9 @@ for(var key in durationEls) {
 }
 
 function setInputDisabled(state) {
-  domainBlacklistEl.disabled = state;
-  domainWhitelistEl.disabled = state;
-  whitelistEl.disabled = state;
+  siteBlacklistEl.disabled = state;
+  siteWhitelistEl.disabled = state;
+  whitelistSelectEl.disabled = state;
   for(var key in durationEls) {
     durationEls[key].disabled = state;
   }
