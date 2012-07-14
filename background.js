@@ -15,7 +15,7 @@ loadRingIfNecessary();
 
 function defaultPrefs() {
   return {
-    siteList: [
+    siteBlacklist: [
       'facebook.com',
       'youtube.com',
       'twitter.com',
@@ -27,6 +27,11 @@ function defaultPrefs() {
       'newgrounds.com',
       'addictinggames.com',
       'hulu.com'
+    ],
+    siteWhitelist: [
+      'google.com/calendar',
+      'rememberthemilk.com',
+      '750words.com'
     ],
     durations: { // in seconds
       work: 25 * 60,
@@ -52,14 +57,20 @@ function updatePrefsFormat(prefs) {
   // compatibility issue. However, in more complicated situations, we need
   // to modify an old PREFS module's structure for compatibility.
   
-  if(prefs.hasOwnProperty('domainBlacklist')) {
-    // Upon adding the whitelist feature, the domainBlacklist property was
-    // renamed to siteList for clarity.
+  if(prefs.hasOwnProperty('siteList')) {
+    // Upon adding a separate blacklist and whitelist, the siteList property
+    // is renamed to either siteBlacklist or siteWhitelist.
     
-    prefs.siteList = prefs.domainBlacklist;
-    delete prefs.domainBlacklist;
+    if (prefs.whitelist) {
+      prefs.siteBlacklist = defaultPrefs().siteBlacklist;
+      prefs.siteWhitelist = prefs.siteList;
+    } else {
+      prefs.siteBlacklist = prefs.siteList;
+      prefs.siteWhitelist = defaultPrefs().siteWhitelist;
+    }
+    delete prefs.siteList;
     savePrefs(prefs);
-    console.log("Renamed PREFS.domainBlacklist to PREFS.siteList");
+    console.log("Renamed PREFS.siteList to PREFS.siteBlacklist/siteWhitelist");
   }
   
   if(!prefs.hasOwnProperty('showNotifications')) {
@@ -249,8 +260,9 @@ function domainsMatch(test, against) {
 }
 
 function isLocationBlocked(location) {
-  for(var k in PREFS.siteList) {
-    listedPattern = parseLocation(PREFS.siteList[k]);
+  var siteList = PREFS.whitelist ? PREFS.siteWhitelist : PREFS.siteBlacklist;
+  for(var k in siteList) {
+    listedPattern = parseLocation(siteList[k]);
     if(locationsMatch(location, listedPattern)) {
       // If we're in a whitelist, a matched location is not blocked => false
       // If we're in a blacklist, a matched location is blocked => true
