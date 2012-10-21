@@ -8,7 +8,7 @@ var PREFS = loadPrefs(),
 BADGE_BACKGROUND_COLORS = {
   work: [192, 0, 0, 255],
   break: [0, 192, 0, 255]
-}, RING = new Audio("http://www.matchusian.com/strict_pomodoro/ring.mp3"),
+}, RING = new Audio("ring.mp3"),
 ringLoaded = false;
 
 loadRingIfNecessary();
