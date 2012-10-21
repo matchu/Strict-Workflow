@@ -4,7 +4,7 @@
       var overlay = document.createElement('div'), lines = [
         chrome.i18n.getMessage("site_blocked_info"),
         chrome.i18n.getMessage("site_blocked_motivator")
-      ], p, img = document.createElement('img');
+      ], p, underlayEls, img = document.createElement('img');
       overlay.id = 'matchu-pomodoro-extension-overlay';
       overlay.style.position = 'fixed';
       overlay.style.left = 0;
@@ -30,13 +30,12 @@
       }
       document.body.appendChild(overlay);
 
-      try {
-        var elements = document.querySelectorAll('body > *:not(#matchu-pomodoro-extension-overlay)')
-        for (var i = 0; i < elements.length; i++) {
-          elements[i].style.webkitFilter = 'grayscale(0.5) blur(4px)';
+      // Add a minimal blur effect to the blocked page
+      underlayEls = document.querySelectorAll("body > *:not(#matchu-pomodoro-extension-overlay)");
+      for(var i in underlayEls) {
+        if (underlayEls[i].style) {
+          underlayEls[i].style.webkitFilter = "grayscale(0.5) blur(4px)";
         }
-      } catch(e) {
-        // This is okay, the above code just adds a little blur to the blocked page
       }
 
       document.body.style.overflow = "hidden"; // Hide horizontal and vertical scrollbars
