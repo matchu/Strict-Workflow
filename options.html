@@ -2,52 +2,46 @@
 <html lang="en">
   <head>
     <title data-i18n="options_title"></title>
-    <style type="text/css">
-      html {
-        height: 100%;
-        width: 100%;
-      }
 
+    <link rel="stylesheet" href="chrome://resources/css/widgets.css">
+    <style type="text/css">
       body {
         background: url(icons/work_full.png) no-repeat fixed right bottom;
-        font-family: sans-serif;
-        padding: 0 1.5em;
+        font-family: 'Lucida Grande', sans-serif;
+        color: rgb(48, 57, 66);
+        -webkit-user-select: none;
+        padding: 1.5em;
+        margin: 0;
       }
-      
-      select, input[type=text] {
-        background: none;
-        border: 1px solid #aaa;
-        padding: .25em;
-        -webkit-border-radius: 3px;
+
+      p {
+        width: 31em;
       }
-      
+
+      h1 {
+        margin-top: 0;
+        font-size: 2.05em;
+        font-weight: normal;
+      }
+
       #site-list-wrapper {
         margin-bottom: 2em;
       }
-      
+
       #site-list-header {
         font-weight: bold;
         margin-bottom: .25em;
       }
-      
-      #site-list-header select {
-        font-size: 100%;
-        font-weight: bold;
-        padding: 0;
-      }
 
       #site-list {
-        border: 1px solid #aaa;
-        height: 15em;
-        width: 25em;
-      }
-      
-      #site-list-wrapper .note {
-        width: 33em;
+        height: 16em;
+        width: 30em;
+        padding: 5px;
+        font: -webkit-control;
       }
 
-      p {
-        width: 50%;
+      #site-list-wrapper .note {
+        width: 33em;
       }
 
       #save-successful {
@@ -55,7 +49,7 @@
         display: none;
         margin-left: 1em;
       }
-      
+
       #time-format-error {
         color: red;
         display: none;
@@ -76,30 +70,31 @@
       }
 
       div {
-        margin-bottom: .75em;
+        margin-bottom: .7em;
       }
-      
+
       #durations label {
         font-weight: bold;
+        margin-left: 0;
       }
-      
+
       #durations .minutes {
         font-size: 85%;
         margin-right: 1.5em;
       }
-      
+
       .note {
-        color: #333;
         font-size: 75%;
       }
-      
+
+      label {
+        margin-left: 0.3em;
+      }
+
       label .note {
         margin-left: 2em;
-        margin-top: 0;
-      }
-      
-      #save-button {
-        margin-top: 1em;
+        margin-top: 0.3em;
+        margin-bottom: 0;
       }
     </style>
   </head>
@@ -146,7 +141,7 @@
           <span data-i18n="options_click_restarts"></span>
           <p class="note" data-i18n="options_click_restarts_note"></p>
         </label>
-      </div>       
+      </div>
       <button type="submit" id="save-button" data-i18n="options_save_changes"></button>
       <span id="save-successful" data-i18n="options_save_successful"></span>
     </form>
