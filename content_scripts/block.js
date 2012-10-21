@@ -12,8 +12,8 @@
       overlay.style.width = '100%';
       overlay.style.height = '100%';
       overlay.style.zIndex = 9000001;
-      overlay.style.backgroundImage = '-webkit-linear-gradient(bottom, #ccc 0%, #fff 75%)';
-      overlay.style.padding = '5em 1em 1em';
+      overlay.style.backgroundImage = '-webkit-linear-gradient(bottom, rgba(210, 210, 210, 0.9) 0%, rgba(255, 255, 255, 0.95) 75%)';
+      overlay.style.padding = '5em 0 1em';
       overlay.style.textAlign = 'center';
       overlay.style.color = '#000';
       overlay.style.font = 'normal normal normal 16px/1 sans-serif';
@@ -29,6 +29,17 @@
         overlay.appendChild(p);
       }
       document.body.appendChild(overlay);
+
+      try {
+        var elements = document.querySelectorAll('body > *:not(#matchu-pomodoro-extension-overlay)')
+        for (var i = 0; i < elements.length; i++) {
+          elements[i].style.webkitFilter = 'grayscale(0.5) blur(4px)';
+        }
+      } catch(e) {
+        // This is okay, the above code just adds a little blur to the blocked page
+      }
+
+      document.body.style.overflow = "hidden"; // Hide horizontal and vertical scrollbars
     }
   }
   
