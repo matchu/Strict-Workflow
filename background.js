@@ -7,11 +7,16 @@
 var PREFS = loadPrefs(),
 BADGE_BACKGROUND_COLORS = {
   work: [192, 0, 0, 255],
-  break: [0, 192, 0, 255]
+  short_break: [0, 192, 0, 255],
+  long_break: [0, 192, 0, 255]
 }, RING = new Audio("ring.mp3"),
 ringLoaded = false;
 
 loadRingIfNecessary();
+
+// PREFS.setShortBreakCounter = function(newVal) {
+//   this.short_break_counter = newVal;
+// };
 
 function defaultPrefs() {
   return {
@@ -33,11 +38,13 @@ function defaultPrefs() {
     ],
     durations: { // in seconds
       work: 25 * 60,
-      break: 5 * 60
+      short_break: 5 * 60,
+      long_break: 15*60
     },
     shouldRing: true,
     clickRestarts: false,
-    whitelist: false
+    whitelist: false,
+    short_break_counter: 0
   }
 }
 
@@ -54,17 +61,17 @@ function updatePrefsFormat(prefs) {
   // say, adding boolean flags with false as the default, there's no
   // compatibility issue. However, in more complicated situations, we need
   // to modify an old PREFS module's structure for compatibility.
-  
+
   if(prefs.hasOwnProperty('domainBlacklist')) {
     // Upon adding the whitelist feature, the domainBlacklist property was
     // renamed to siteList for clarity.
-    
+
     prefs.siteList = prefs.domainBlacklist;
     delete prefs.domainBlacklist;
     savePrefs(prefs);
     console.log("Renamed PREFS.domainBlacklist to PREFS.siteList");
   }
-  
+
   if(!prefs.hasOwnProperty('showNotifications')) {
     // Upon adding the option to disable notifications, added the
     // showNotifications property, which defaults to true.
@@ -72,7 +79,19 @@ function updatePrefsFormat(prefs) {
     savePrefs(prefs);
     console.log("Added PREFS.showNotifications");
   }
-  
+
+  if(!prefs.hasOwnProperty('short_break_counter')){
+    //  adding the short_break_counter, so if it's not set we need to set it to 0
+    prefs.short_break_counter = 0;
+    savePrefs(prefs);
+  }
+
+  if(!prefs.durations.hasOwnProperty('short_break')) {
+    prefs.durations.short_break = prefs.durations.break;
+    prefs.durations.break = null;
+    savePrefs(prefs);
+  }
+
   return prefs;
 }
 
@@ -121,7 +140,7 @@ for(var i in iconTypeS) {
 */
 
 function Pomodoro(options) {
-  this.mostRecentMode = 'break';
+  this.mostRecentMode = '';
   this.nextMode = 'work';
   this.running = false;
 
@@ -130,6 +149,7 @@ function Pomodoro(options) {
   }
 
   this.start = function () {
+    setModes(this);
     var mostRecentMode = this.mostRecentMode, timerOptions = {};
     this.mostRecentMode = this.nextMode;
     this.nextMode = mostRecentMode;
@@ -143,7 +163,7 @@ function Pomodoro(options) {
     this.currentTimer = new Pomodoro.Timer(this, timerOptions);
     this.currentTimer.start();
   }
-  
+
   this.restart = function () {
       if(this.currentTimer) {
           this.currentTimer.restart();
@@ -162,7 +182,7 @@ Pomodoro.Timer = function Timer(pomodoro, options) {
     options.onStart(timer);
     options.onTick(timer);
   }
-  
+
   this.restart = function() {
       this.timeRemaining = options.duration;
       options.onTick(timer);
@@ -260,7 +280,7 @@ function isLocationBlocked(location) {
       return !PREFS.whitelist;
     }
   }
-  
+
   // If we're in a whitelist, an unmatched location is blocked => true
   // If we're in a blacklist, an unmatched location is not blocked => false
   return PREFS.whitelist;
@@ -270,7 +290,7 @@ function executeInTabIfBlocked(action, tab) {
   var file = "content_scripts/" + action + ".js", location;
   location = tab.url.split('://');
   location = parseLocation(location[1]);
-  
+
   if(isLocationBlocked(location)) {
     chrome.tabs.executeScript(tab.id, {file: file});
   }
@@ -288,19 +308,43 @@ function executeInAllBlockedTabs(action) {
   });
 }
 
+function setModes(self) {
+  if(self.mostRecentMode == '') {   //  initial
+    self.mostRecentMode = 'short_break';
+    self.nextMode = 'work';
+  } else if (self.mostRecentMode == 'work') {
+    // self.nextMode = 'work';
+    if(PREFS.short_break_counter >= 3) {
+      self.nextMode = 'long_break';
+      setShortBreakCounter(0);
+    } else {
+      self.nextMode = 'short_break';
+      setShortBreakCounter(PREFS.short_break_counter + 1);
+    }
+  } else {
+    self.nextMode = 'work';
+    self.mostRecentMode = PREFS.short_break_counter >= 3 ? 'long_break' : 'short_break';
+  }
+}
+
+function setShortBreakCounter (newVal) {
+  PREFS.short_break_counter = newVal;
+}
+
 var notification, mainPomodoro = new Pomodoro({
   getDurations: function () { return PREFS.durations },
   timer: {
     onEnd: function (timer) {
+
       chrome.browserAction.setIcon({
-        path: ICONS.ACTION.PENDING[timer.pomodoro.nextMode]
+        path: ICONS.ACTION.PENDING[this.getIconMode(timer.pomodoro.nextMode)]
       });
       chrome.browserAction.setBadgeText({text: ''});
-      
+
       if(PREFS.showNotifications) {
         var nextModeName = chrome.i18n.getMessage(timer.pomodoro.nextMode);
         notification = webkitNotifications.createNotification(
-          ICONS.FULL[timer.type],
+          ICONS.FULL[this.getIconMode(timer.pomodoro.nextMode)],
           chrome.i18n.getMessage("timer_end_notification_header"),
           chrome.i18n.getMessage("timer_end_notification_body", nextModeName)
         );
@@ -313,7 +357,7 @@ var notification, mainPomodoro = new Pomodoro({
         };
         notification.show();
       }
-      
+
       if(PREFS.shouldRing) {
         console.log("playing ring", RING);
         RING.play();
@@ -321,7 +365,7 @@ var notification, mainPomodoro = new Pomodoro({
     },
     onStart: function (timer) {
       chrome.browserAction.setIcon({
-        path: ICONS.ACTION.CURRENT[timer.type]
+        path: ICONS.ACTION.CURRENT[this.getIconMode(timer.type)]
       });
       chrome.browserAction.setBadgeBackgroundColor({
         color: BADGE_BACKGROUND_COLORS[timer.type]
@@ -342,12 +386,15 @@ var notification, mainPomodoro = new Pomodoro({
     },
     onTick: function (timer) {
       chrome.browserAction.setBadgeText({text: timer.timeRemainingString()});
+    },
+    getIconMode: function (timerState) {
+      return timerState == 'work' ? 'work' : 'break';
     }
   }
 });
 
 chrome.browserAction.onClicked.addListener(function (tab) {
-  if(mainPomodoro.running) { 
+  if(mainPomodoro.running) {
       if(PREFS.clickRestarts) {
           mainPomodoro.restart();
       }

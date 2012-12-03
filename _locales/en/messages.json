@@ -7,20 +7,24 @@
     "message": "Enforces the Pomodoro time management technique by blocking distractions during work timers, then unblocking during breaks",
     "description": "Description of the extension"
   },
-  
+
   "work": {
     "message": "work",
     "description": "The name of the work timer"
   },
-  "break": {
-    "message": "break",
-    "description": "The name of the break timer"
+  "short_break": {
+    "message": "short break",
+    "description": "The name of the short break timer"
+  },
+  "long_break": {
+    "message": "long break",
+    "description": "The name of the long break timer"
   },
   "minutes": {
     "message": "minutes",
     "description": "The name of the time interval representing 60 seconds"
   },
-  
+
   "site_blocked_info": {
     "message": "Page blocked until a Pomodoro break timer starts.",
     "description": "Text for the blocked-site overlay, explaining that the site is blocked and when it will become unblocked"
@@ -29,7 +33,7 @@
     "message": "Back to work!",
     "description": "Text for the blocked-site overlay, motivating the user to get back to work"
   },
-  
+
   "options_title": {
     "message": "Strict Pomodoro Options",
     "description": "The title of the options page"
@@ -86,7 +90,7 @@
     "message": "Save successful",
     "description": "On the options page, message to indicate that the options have been saved"
   },
-  
+
   "timer_end_notification_header": {
     "message": "Time's up!",
     "description": "Bold header of pop-up notification when a timer ends"
