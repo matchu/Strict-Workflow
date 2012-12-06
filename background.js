@@ -28,11 +28,7 @@ function defaultPrefs() {
       'addictinggames.com',
       'hulu.com'
     ],
-    siteWhitelist: [
-      'google.com/calendar',
-      'rememberthemilk.com',
-      '750words.com'
-    ],
+    siteWhitelist: [],
     durations: { // in seconds
       work: 25 * 60,
       break: 5 * 60
