@@ -127,6 +127,9 @@ function Pomodoro(options) {
 
   this.onTimerEnd = function (timer) {
     this.running = false;
+    if (PREFS.autoContinue && this.mostRecentMode == 'break') {
+      this.start();
+    }
   }
 
   this.start = function () {
@@ -189,9 +192,9 @@ Pomodoro.Timer = function Timer(pomodoro, options) {
     timer.timeRemaining--;
     options.onTick(timer);
     if(timer.timeRemaining <= 0) {
-      clearInterval(tickInterval);
-      pomodoro.onTimerEnd(timer);
+      timer.stop();
       options.onEnd(timer);
+      pomodoro.onTimerEnd(timer);
     }
   }
 }

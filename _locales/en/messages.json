@@ -78,6 +78,10 @@
     "message": "Clicking on a running break timer starts a new work period",
     "description": "On the options page, label for the checkbox that enables/disables the feature that clicking on a running break timer starts a work period"
   },
+  "options_auto_continue": {
+    "message": "Automatically start a new work period when the break timer finishes",
+    "description": "On the options page, label for the checkbox that enables/disables the feature that the work timer starts automatically at the end of a break"
+  },
   "options_click_restarts_note": {
     "message": "By the strictness philosophy, the only way to <em>cancel</em> a running timer is to disable the extension.",
     "description": "On the options page, note below the label for the click-restarts checkbox explaining that this will not allow users to *cancel* a running timer"
