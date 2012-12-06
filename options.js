@@ -26,6 +26,7 @@ var form = document.getElementById('options-form'),
   showNotificationsEl = document.getElementById('show-notifications'),
   shouldRingEl = document.getElementById('should-ring'),
   clickRestartsEl = document.getElementById('click-restarts'),
+  clickSkipsEl = document.getElementById('click-skips'),
   saveSuccessfulEl = document.getElementById('save-successful'),
   timeFormatErrorEl = document.getElementById('time-format-error'),
   background = chrome.extension.getBackgroundPage(),
@@ -63,6 +64,7 @@ form.onsubmit = function () {
     showNotifications:  showNotificationsEl.checked,
     shouldRing:         shouldRingEl.checked,
     clickRestarts:      clickRestartsEl.checked,
+    clickSkips:         clickSkipsEl.checked,
     whitelist:          whitelistEl.selectedIndex == 1
   })
   saveSuccessfulEl.className = 'show';
@@ -73,6 +75,7 @@ siteListEl.onfocus = formAltered;
 showNotificationsEl.onchange = formAltered;
 shouldRingEl.onchange = formAltered;
 clickRestartsEl.onchange = formAltered;
+clickSkipsEl.onchange = formAltered;
 whitelistEl.onchange = formAltered;
 
 function formAltered() {
@@ -84,6 +87,7 @@ siteListEl.value = background.PREFS.siteList.join("\n");
 showNotificationsEl.checked = background.PREFS.showNotifications;
 shouldRingEl.checked = background.PREFS.shouldRing;
 clickRestartsEl.checked = background.PREFS.clickRestarts;
+clickSkipsEl.checked = background.PREFS.clickSkips;
 whitelistEl.selectedIndex = background.PREFS.whitelist ? 1 : 0;
 
 var duration, minutes, seconds;
