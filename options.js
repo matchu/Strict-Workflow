@@ -7,12 +7,12 @@ var localizedElements = document.querySelectorAll('[data-i18n]'), el, message;
 for(var i = 0; i < localizedElements.length; i++) {
   el = localizedElements[i];
   message = chrome.i18n.getMessage(el.getAttribute('data-i18n'));
-  
+
   // Capitalize first letter if element has attribute data-i18n-caps
   if(el.hasAttribute('data-i18n-caps')) {
     message = message.charAt(0).toUpperCase() + message.substr(1);
   }
-  
+
   el.innerHTML = message;
 }
 
@@ -30,16 +30,17 @@ var form = document.getElementById('options-form'),
   timeFormatErrorEl = document.getElementById('time-format-error'),
   background = chrome.extension.getBackgroundPage(),
   startCallbacks = {}, durationEls = {};
-  
+
 durationEls['work'] = document.getElementById('work-duration');
-durationEls['break'] = document.getElementById('break-duration');
+durationEls['short_break'] = document.getElementById('short-break-duration');
+durationEls['long_break'] = document.getElementById('long-break-duration');
 
 var TIME_REGEX = /^([0-9]+)(:([0-9]{2}))?$/;
 
 form.onsubmit = function () {
   console.log("form submitted");
   var durations = {}, duration, durationStr, durationMatch;
-  
+
   for(var key in durationEls) {
     durationStr = durationEls[key].value;
     durationMatch = durationStr.match(TIME_REGEX);
@@ -52,11 +53,11 @@ form.onsubmit = function () {
     } else {
       timeFormatErrorEl.className = 'show';
       return false;
-    } 
+    }
   }
-  
+
   console.log(durations);
-  
+
   background.setPrefs({
     siteList:           siteListEl.value.split(/\r?\n/),
     durations:          durations,
@@ -114,7 +115,12 @@ startCallbacks.work = function () {
   setInputDisabled(true);
 }
 
-startCallbacks.break = function () {
+startCallbacks.short_break = function () {
+  document.body.removeAttribute('class');
+  setInputDisabled(false);
+}
+
+startCallbacks.long_break = function () {
   document.body.removeAttribute('class');
   setInputDisabled(false);
 }
