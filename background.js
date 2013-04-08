@@ -126,13 +126,57 @@ function Pomodoro(options) {
   this.running = false;
 
   this.onTimerEnd = function (timer) {
+ 
     this.running = false;
+    this.report = {}; 
+    if(this.current_key) {
+        var reported_work = this.report[current_key];
+        reported_work = reported_work + ', "' + prompt( "How well did you do this pomodoro? (1-5)", "5") + '"';
+       this.report[current_key] =  reported_work;
+    }
+
+    if( confirm( "Get report?" ) ) {
+        this.do_report();
+    }
+
+  }
+
+  this.do_report = function () {
+
+    var localStorageKeys = Object.keys( this.report );
+
+    localStorageKeys.sort();
+
+    var csv = 'Time, Worked On, Feedback';
+
+    for ( var key in localStorageKeys ) {
+
+        var reported_work = this.report[key];
+
+        csv += new Date( key ) + ", " + reported_work + '\n';
+
+    }
+
+    alert(csv);
+
   }
 
   this.start = function () {
     var mostRecentMode = this.mostRecentMode, timerOptions = {};
     this.mostRecentMode = this.nextMode;
     this.nextMode = mostRecentMode;
+
+    var working_on_message = prompt("What are you working on?", "Work");
+
+    var startTime = new Date(); 
+
+    this.current_key = startTime.getTime();
+    if( this.report === undefined) {
+        this.report = {};
+    }
+
+    this.report[this.current_key] = '"' + working_on_message + '"';
+   
 
     for(var key in options.timer) {
       timerOptions[key] = options.timer[key];
