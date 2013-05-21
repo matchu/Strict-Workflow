@@ -1,10 +1,10 @@
 {
   "ext_name": {
-    "message": "Strict Pomodoro",
+    "message": "Strict Workflow",
     "description": "Name of the extension"
   },
   "ext_description": {
-    "message": "Enforces the Pomodoro time management technique by blocking distractions during work timers, then unblocking during breaks",
+    "message": "Enforces a 25min/5min workflow: 25 minutes of distraction-free work, followed by 5 minutes of break. Repeat as necessary.",
     "description": "Description of the extension"
   },
   
@@ -22,7 +22,7 @@
   },
   
   "site_blocked_info": {
-    "message": "Page blocked until a Pomodoro break timer starts.",
+    "message": "Page blocked until a break timer starts.",
     "description": "Text for the blocked-site overlay, explaining that the site is blocked and when it will become unblocked"
   },
   "site_blocked_motivator": {
@@ -31,7 +31,7 @@
   },
   
   "options_title": {
-    "message": "Strict Pomodoro Options",
+    "message": "Strict Workflow Options",
     "description": "The title of the options page"
   },
   "options_blacklist_verb": {

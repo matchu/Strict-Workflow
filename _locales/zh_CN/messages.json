@@ -1,6 +1,6 @@
 {
   "ext_name": {
-    "message": "Strict Pomodoro",
+    "message": "Strict Workflow",
     "description": "Name of the extension"
   },
   "ext_description": {
@@ -31,7 +31,7 @@
   },
   
   "options_title": {
-    "message": "Strict Pomodoro 选项",
+    "message": "Strict Workflow 选项",
     "description": "The title of the options page"
   },
   "options_blacklist_verb": {
