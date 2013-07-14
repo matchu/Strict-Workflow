@@ -1,10 +1,20 @@
 {
    "background": {
-      "scripts": ["background.js"]
+      "scripts": ["phases.js", "browserAction.js", "blocking/router.js",
+                  "eventPage.js"],
+      "persistent": false
    },
    "browser_action": {
       "default_icon": "icons/work_pending.png"
    },
+   "content_scripts": [
+      {
+         "matches": ["<all_urls>"],
+         "css": ["blocking/content.css"],
+         "js": ["blocking/content.js"],
+         "run_at": "document_end"
+      }
+   ],
    "default_locale": "en",
    "description": "__MSG_ext_description__",
    "icons": {
@@ -15,7 +25,7 @@
    "manifest_version": 2,
    "name": "__MSG_ext_name__",
    "options_page": "options.html",
-   "permissions": [ "notifications", "tabs", "<all_urls>" ],
+   "permissions": [ "alarms", "notifications", "tabs", "storage", "<all_urls>" ],
    "version": "1.6.1",
    "web_accessible_resources": [
       "icons/work_full.png",

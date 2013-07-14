@@ -1,0 +1,28 @@
+/* When blocked, hide all non-overlay elements, so we don't have to get into a
+   z-index fight. Not perfect, but it helps.(Text nodes that are direct
+   children of the body will not be hidden by this rule, but that's okay, since
+   they also can't be given a z-index and will therefore be covered up.) */
+html.__MSG_@@extension_id__-blocked body > * {
+    display: none;
+}
+
+#__MSG_@@extension_id__-overlay {
+    background-image: url('chrome-extension://__MSG_@@extension_id__/icons/work_full.png'),
+                      -webkit-linear-gradient(bottom, #ccc 0%, #fff 75%);
+    background-position: center 64px, top;
+    background-repeat: no-repeat;
+    color: #222;
+    display: block;
+    font: normal normal normal 16px/1 sans-serif;
+    left: 0;
+    height: 100%;
+    padding: 200px 1em 1em;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100%;
+}
+
+#__MSG_@@extension_id__-overlay p {
+    margin: 0 0 1em 0;
+}
