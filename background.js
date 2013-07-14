@@ -318,6 +318,16 @@ var notification, mainPomodoro = new Pomodoro({
         console.log("playing ring", RING);
         RING.play();
       }
+      
+      // If auto-mode is set, restart the cycle by calling start
+      // Note:  If this is set, users won't see notifications  because we  
+      //        dismissthem on onStart at Line 344. Users may potentially notice
+      //        notification appear and disappear in a flash.
+      // To Do: International strings      
+      if(PREFS.autoMode) {
+         mainPomodoro.start();
+      }
+      
     },
     onStart: function (timer) {
       chrome.browserAction.setIcon({

@@ -25,6 +25,7 @@ var form = document.getElementById('options-form'),
   whitelistEl = document.getElementById('blacklist-or-whitelist'),
   showNotificationsEl = document.getElementById('show-notifications'),
   shouldRingEl = document.getElementById('should-ring'),
+  autoModeEl =  document.getElementById('auto-mode'),
   clickRestartsEl = document.getElementById('click-restarts'),
   saveSuccessfulEl = document.getElementById('save-successful'),
   timeFormatErrorEl = document.getElementById('time-format-error'),
@@ -62,6 +63,7 @@ form.onsubmit = function () {
     durations:          durations,
     showNotifications:  showNotificationsEl.checked,
     shouldRing:         shouldRingEl.checked,
+    autoMode:           autoModeEl.checked,
     clickRestarts:      clickRestartsEl.checked,
     whitelist:          whitelistEl.selectedIndex == 1
   })
@@ -72,6 +74,7 @@ form.onsubmit = function () {
 siteListEl.onfocus = formAltered;
 showNotificationsEl.onchange = formAltered;
 shouldRingEl.onchange = formAltered;
+autoModeEl.onchange = formAltered;
 clickRestartsEl.onchange = formAltered;
 whitelistEl.onchange = formAltered;
 
@@ -83,6 +86,7 @@ function formAltered() {
 siteListEl.value = background.PREFS.siteList.join("\n");
 showNotificationsEl.checked = background.PREFS.showNotifications;
 shouldRingEl.checked = background.PREFS.shouldRing;
+autoModeEl.checked = background.PREFS.autoMode;
 clickRestartsEl.checked = background.PREFS.clickRestarts;
 whitelistEl.selectedIndex = background.PREFS.whitelist ? 1 : 0;
 

@@ -70,6 +70,10 @@
     "message": "Ring when a timer finishes (audio)",
     "description": "On the options page, label for the checkbox that enables/disables ringing sound at the end of a timer"
   },
+  "options_auto_mode": {
+    "message": "Alternate between work and break cycles automatically",
+    "description": "On the options page, label for the checkbox that enables/disables automatic flipping between work and break modes"
+  },
   "options_click_restarts": {
     "message": "Clicking on a running timer restarts it",
     "description": "On the options page, label for the checkbox that enables/disables the feature that clicking on a running timer restarts it"
