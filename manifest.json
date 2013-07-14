@@ -11,7 +11,7 @@
       {
          "matches": ["<all_urls>"],
          "css": ["blocking/content.css"],
-         "js": ["blocking/content.js"],
+         "js": ["phases.js", "blocking/matcher.js", "blocking/content.js"],
          "run_at": "document_end"
       }
    ],

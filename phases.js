@@ -1,23 +1,26 @@
 var Phases = {
   _ALL: {
     "free": {
-        on: {start: "work"}
+      blocked: false,
+      on: {start: "work"}
     },
     "work": {
-        blocked: true,
-        on: {alarm: "afterWork"},
-        browserAction: {badgeBackgroundColor: [192, 0, 0, 255]}
+      blocked: true,
+      on: {alarm: "afterWork"},
+      browserAction: {badgeBackgroundColor: [192, 0, 0, 255]}
     },
     "afterWork": {
-        blocked: true,
-        on: {start: "break", exit: "free"}
+      blocked: true,
+      on: {start: "break", exit: "free"}
     },
     "break": {
-        on: {alarm: "afterBreak"},
-        browserAction: {badgeBackgroundColor: [0, 192, 0, 255]}
+      blocked: false,
+      on: {alarm: "afterBreak"},
+      browserAction: {badgeBackgroundColor: [0, 192, 0, 255]}
     },
     "afterBreak": {
-        on: {start: "work", exit: "free"}
+      blocked: true,
+      on: {start: "work", exit: "free"}
     }
   },
   get: function(phaseName) { return this._ALL[phaseName] },
