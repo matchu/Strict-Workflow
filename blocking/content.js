@@ -34,10 +34,12 @@ function toggleBlocked(phase) {
   console.log("Current phase:", phase);
   if (phase.blocked !== blocked) {
     SiteMatcher.getCurrent(function(matcher) {
-      if (phase.blocked) {
-        block();
-      } else {
-        unblock();
+      if (!matcher.allows(document.location.href)) {
+        if (phase.blocked) {
+          block();
+        } else {
+          unblock();
+        }
       }
     });
   }
