@@ -1,3 +1,5 @@
+var DEFAULT_STATE = {name: "free", completeAt: null};
+
 var Phases = {
   _ALL: {
     "free": {
@@ -24,33 +26,38 @@ var Phases = {
     }
   },
   get: function(phaseName) { return this._ALL[phaseName] },
-  getCurrentName: function(callback) {
-    chrome.storage.local.get({currentPhaseName: "free"}, function(items) {
-      callback(items.currentPhaseName);
+  getCurrentState: function(callback) {
+    chrome.storage.local.get({phaseState: DEFAULT_STATE}, function(items) {
+      callback(items.phaseState.name, items.phaseState.completeAt);
     });
   },
   getCurrent: function(callback) {
-    this.getCurrentName(function(phaseName) {
-      callback(Phases.get(phaseName));
+    this.getCurrentState(function(phaseName, completeAt) {
+      callback(Phases.get(phaseName), completeAt);
     });
   },
   setCurrentName: function(phaseName) {
     var phase = Phases.get(phaseName);
-    var message = {phaseName: phaseName};
     if (phase.on.alarm) {
-      var completeAt = Date.now() + 5000; // TODO: actual durations
-      message.completeAt = completeAt;
+      var completeAt = Date.now() + (1000 * 60 * 2); // TODO: actual durations
       chrome.alarms.create("phaseComplete", {when: completeAt});
     }
-    chrome.storage.local.set({currentPhaseName: phaseName}, function() {
-      chrome.runtime.sendMessage({phaseChanged: message});
+    var phaseState = {
+      name: phaseName,
+      completeAt: completeAt
+    };
+    chrome.storage.local.set({phaseState: phaseState}, function() {
+      chrome.runtime.sendMessage({
+        phaseChanged: phaseState
+      });
     });
   },
   onChanged: {
     addListener: function(callback) {
       chrome.runtime.onMessage.addListener(function(request) {
         if ("phaseChanged" in request) {
-          callback(request.phaseChanged.phaseName);
+          var e = request.phaseChanged;
+          callback(e.name, e.completeAt);
         }
       });
     }

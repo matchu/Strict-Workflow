@@ -100,5 +100,16 @@
         "example": "work"
       }
     }
+  },
+
+  "browser_action_badge_time_remaining": {
+    "message": "$MINUTES$m",
+    "description": "Appears on the icon to indicate how many minutes remain until the next phase",
+    "placeholders": {
+      "minutes": {
+        "content": "$1",
+        "example": "25"
+      }
+    }
   }
 }

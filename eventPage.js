@@ -8,7 +8,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 
 function reset() {
   console.log("Resetting.");
-  chrome.alarms.clear("phaseComplete");
+  chrome.alarms.clearAll();
   Phases.setCurrentName("free");
 }
 
