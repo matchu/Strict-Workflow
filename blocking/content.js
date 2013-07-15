@@ -4,6 +4,25 @@ var OVERLAY_ID = EXTENSION_ID + "-overlay";
 
 var blocked = false;
 
+function buildControl(action) {
+  var button = document.createElement("button");
+  button.innerText = action; // TODO: i18n, update with phases
+  button.addEventListener("click", function() {
+    // Phases.trigger requires API permissions that we don't have, so ask the
+    // router to do it for us.
+    chrome.runtime.sendMessage({trigger: action});
+  });
+  return button;
+}
+
+function buildControls() {
+  var wrapper = document.createElement("div");
+  ["next", "exit"].map(buildControl).forEach(function(control) {
+    wrapper.appendChild(control);
+  });
+  return wrapper;
+}
+
 function buildOverlay() {
   var overlay = document.createElement("div");
   overlay.id = OVERLAY_ID;
@@ -13,6 +32,7 @@ function buildOverlay() {
     p.innerText = chrome.i18n.getMessage(key);
     overlay.appendChild(p);
   });
+  overlay.appendChild(buildControls());
   return overlay;
 }
 

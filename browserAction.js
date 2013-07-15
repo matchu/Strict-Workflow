@@ -20,7 +20,7 @@ Phases.onChanged.addListener(function(phaseName, completeAt) {
       color: phase.browserAction.badgeBackgroundColor
     });
   } else {
-    var iconName = phase.on.start + "_pending";
+    var iconName = phase.on.next + "_pending";
   }
   chrome.browserAction.setIcon({
     path: "icons/" + iconName + ".png"
@@ -38,7 +38,7 @@ Phases.onChanged.addListener(function(phaseName, completeAt) {
 });
 
 chrome.browserAction.onClicked.addListener(function() {
-  Phases.startNext();
+  Phases.trigger("next");
 });
 
 chrome.alarms.onAlarm.addListener(function(alarm) {

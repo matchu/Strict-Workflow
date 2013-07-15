@@ -16,3 +16,10 @@ Phases.onChanged.addListener(function(phaseName) {
     });
   });
 });
+
+// Listen for trigger requests, since tabs can't use all the APIs we can
+chrome.runtime.onMessage.addListener(function(request) {
+  if ("trigger" in request) {
+    Phases.trigger(request.trigger);
+  }
+});

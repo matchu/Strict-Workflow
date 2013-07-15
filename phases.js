@@ -2,7 +2,7 @@ var Phases = {
   _ALL: {
     "free": {
       blocked: false,
-      on: {start: "work"}
+      on: {next: "work"}
     },
     "work": {
       blocked: true,
@@ -11,7 +11,7 @@ var Phases = {
     },
     "afterWork": {
       blocked: true,
-      on: {start: "break", exit: "free"}
+      on: {next: "break", exit: "free"}
     },
     "break": {
       blocked: false,
@@ -20,7 +20,7 @@ var Phases = {
     },
     "afterBreak": {
       blocked: true,
-      on: {start: "work", exit: "free"}
+      on: {next: "work", exit: "free"}
     }
   },
   _DEFAULT_STATE: {name: "free", completeAt: null},
@@ -68,10 +68,10 @@ var Phases = {
       });
     }
   },
-  startNext: function() {
+  trigger: function(actionName) {
     this.getCurrent(function(phase) {
-      if (phase.on.start) {
-        Phases.setCurrentName(phase.on.start);
+      if (phase.on[actionName]) {
+        Phases.setCurrentName(phase.on[actionName]);
       }
     });
   }
