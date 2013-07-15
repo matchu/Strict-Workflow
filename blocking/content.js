@@ -53,6 +53,7 @@ function unblock() {
 function toggleBlocked(phase) {
   console.log("Current phase:", phase);
   if (phase.blocked !== blocked) {
+    // TODO: forward matcher with phase changes to avoid redundant lookups?
     SiteMatcher.getCurrent(function(matcher) {
       if (!matcher.allows(document.location.href)) {
         if (phase.blocked) {
