@@ -320,9 +320,6 @@ var notification, mainPomodoro = new Pomodoro({
       }
       
       // If auto-mode is set, restart the cycle by calling start
-      // Note:  If this is set, users won't see notifications  because we  
-      //        dismissthem on onStart at Line 344. Users may potentially notice
-      //        notification appear and disappear in a flash.
       // To Do: International strings      
       if(PREFS.autoMode) {
          setTimeout(function(){mainPomodoro.start();}, 30000);
