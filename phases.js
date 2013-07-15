@@ -11,7 +11,8 @@ var Phases = {
     },
     "afterWork": {
       blocked: true,
-      on: {next: "break", exit: "free"}
+      on: {next: "break", exit: "free"},
+      notification: true
     },
     "break": {
       blocked: false,
@@ -20,7 +21,8 @@ var Phases = {
     },
     "afterBreak": {
       blocked: true,
-      on: {next: "work", exit: "free"}
+      on: {next: "work", exit: "free"},
+      notification: true
     }
   },
   _DEFAULT_STATE: {name: "free", completeAt: null},

@@ -4,32 +4,10 @@ var BLOCKED_CLASS_NAME = EXTENSION_ID + "-blocked";
 var blocked = false;
 var overlay, controls;
 
-function buildControl(action) {
-  var button = document.createElement("button");
-  button.addEventListener("click", function() {
-    // Phases.trigger requires API permissions that we don't have, so ask the
-    // router to do it for us.
-    chrome.runtime.sendMessage({trigger: action});
-  });
-  return button;
-}
-
-function buildControls(phase) {
-  var wrapper = document.createElement("div");
-
-  if (phase.on.next) {
-    var nextButton = buildControl("next");
-    nextButton.innerText = chrome.i18n.getMessage("start_next_" + phase.on.next);
-    wrapper.appendChild(nextButton);
-  }
-
-  if (phase.on.exit) {
-    var exitButton = buildControl("exit");
-    exitButton.innerText = chrome.i18n.getMessage("exit");
-    wrapper.appendChild(exitButton);
-  }
-
-  return wrapper;
+// Phases.trigger requires API permissions that we don't have, so, when the
+// controls try to trigger, have them send the router a message instead.
+Phases.trigger = function(action) {
+  chrome.runtime.sendMessage({trigger: action});
 }
 
 function buildOverlay() {
@@ -65,7 +43,7 @@ function updateOverlay(phase) {
   if (blocked) {
     console.log("OMG we're blocked! Update overlay!", phase, phase.on.next);
     if (controls) overlay.removeChild(controls);
-    controls = buildControls(phase);
+    controls = Controls.build(phase);
     overlay.appendChild(controls);
   }
 }

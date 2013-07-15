@@ -1,7 +1,8 @@
 {
    "background": {
       "scripts": ["options/storage.js", "phases.js", "browserAction.js",
-                  "blocking/router.js", "eventPage.js"],
+                  "notifications/events.js", "blocking/router.js",
+                  "eventPage.js"],
       "persistent": false
    },
    "browser_action": {
@@ -11,8 +12,8 @@
       {
          "matches": ["<all_urls>"],
          "css": ["blocking/content.css"],
-         "js": ["phases.js", "options/storage.js", "blocking/matcher.js",
-                "blocking/content.js"],
+         "js": ["options/storage.js", "phases.js", "blocking/matcher.js",
+                "controls.js", "blocking/content.js"],
          "run_at": "document_end"
       }
    ],

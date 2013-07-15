@@ -1,0 +1,15 @@
+body {
+  font-family: Ubuntu, Arial, sans-serif;
+  font-size: 80%;
+}
+
+#icon, .__MSG_@@extension_id__-controls {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#icon {
+  height: 48px;
+  margin-right: .5em;
+  width: 48px;
+}
