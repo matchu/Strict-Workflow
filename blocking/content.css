@@ -11,6 +11,7 @@ html.__MSG_@@extension_id__-blocked body > * {
                       -webkit-linear-gradient(bottom, #ccc 0%, #fff 75%);
     background-position: center 64px, top;
     background-repeat: no-repeat;
+    box-sizing: border-box;
     color: #222;
     display: block;
     font: normal normal normal 16px/1 sans-serif;
