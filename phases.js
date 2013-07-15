@@ -38,17 +38,20 @@ var Phases = {
   },
   setCurrentName: function(phaseName) {
     var phase = Phases.get(phaseName);
-    if (phase.on.alarm) {
-      var completeAt = Date.now() + (1000 * 60 * 2); // TODO: actual durations
-      chrome.alarms.create("phaseComplete", {when: completeAt});
-    }
-    var phaseState = {
-      name: phaseName,
-      completeAt: completeAt
-    };
-    chrome.storage.local.set({phaseState: phaseState}, function() {
-      chrome.runtime.sendMessage({
-        phaseChanged: phaseState
+    // TODO: skip this get for untimed phases
+    Options.get("durations", function(items) {
+      if (phase.on.alarm) {
+        var completeAt = Date.now() + items.durations[phaseName];
+        chrome.alarms.create("phaseComplete", {when: completeAt});
+      }
+      var phaseState = {
+        name: phaseName,
+        completeAt: completeAt
+      };
+      chrome.storage.local.set({phaseState: phaseState}, function() {
+        chrome.runtime.sendMessage({
+          phaseChanged: phaseState
+        });
       });
     });
   },
@@ -56,6 +59,7 @@ var Phases = {
     addListener: function(callback) {
       chrome.runtime.onMessage.addListener(function(request) {
         if ("phaseChanged" in request) {
+          console.log("Phase change request", request);
           var e = request.phaseChanged;
           callback(e.name, e.completeAt);
         }

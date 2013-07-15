@@ -1,4 +1,8 @@
-function SiteMatcher(sites, isWhitelist) {
+function SiteMatcher(siteList) {
+  var sites = siteList.sites;
+  var isWhitelist = siteList.type === "whitelist";
+  console.log("matcher create", siteList, sites, isWhitelist);
+
   function parseLocation(location) {
     var components = location.split('/');
     return {domain: components.shift(), path: components.join('/')};
@@ -70,6 +74,7 @@ function SiteMatcher(sites, isWhitelist) {
 }
 
 SiteMatcher.getCurrent = function(callback) {
-  // TODO: get from prefs
-  callback(new SiteMatcher(["matchusian.com", "youtube.com"], false));
+  Options.get("siteList", function(items) {
+    callback(new SiteMatcher(items.siteList));
+  });
 }

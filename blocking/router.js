@@ -4,7 +4,8 @@
 //       inject the script at all. Warning: more difficult than it seems.
 
 function forwardPhaseChanged(tabId, phaseName) {
-  chrome.tabs.sendMessage(tabId, {phaseChanged: {phaseName: phaseName}});
+  chrome.tabs.sendMessage(tabId, {phaseChanged: {name: phaseName,
+                                                 completeAt: null}});
 }
 
 // Forward phase changes to listening tabs
