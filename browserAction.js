@@ -38,11 +38,7 @@ Phases.onChanged.addListener(function(phaseName, completeAt) {
 });
 
 chrome.browserAction.onClicked.addListener(function() {
-  Phases.getCurrent(function(phase) {
-    if (phase.on.start) {
-      Phases.setCurrentName(phase.on.start);
-    }
-  });
+  Phases.startNext();
 });
 
 chrome.alarms.onAlarm.addListener(function(alarm) {

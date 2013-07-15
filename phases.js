@@ -67,5 +67,12 @@ var Phases = {
         }
       });
     }
+  },
+  startNext: function() {
+    this.getCurrent(function(phase) {
+      if (phase.on.start) {
+        Phases.setCurrentName(phase.on.start);
+      }
+    });
   }
 };
