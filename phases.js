@@ -1,5 +1,3 @@
-var DEFAULT_STATE = {name: "free", completeAt: null};
-
 var Phases = {
   _ALL: {
     "free": {
@@ -25,11 +23,15 @@ var Phases = {
       on: {start: "work", exit: "free"}
     }
   },
+  _DEFAULT_STATE: {name: "free", completeAt: null},
   get: function(phaseName) { return this._ALL[phaseName] },
   getCurrentState: function(callback) {
-    chrome.storage.local.get({phaseState: DEFAULT_STATE}, function(items) {
-      callback(items.phaseState.name, items.phaseState.completeAt);
-    });
+    chrome.storage.local.get(
+      {phaseState: this._DEFAULT_STATE},
+      function(items) {
+        callback(items.phaseState.name, items.phaseState.completeAt);
+      }
+    );
   },
   getCurrent: function(callback) {
     this.getCurrentState(function(phaseName, completeAt) {
