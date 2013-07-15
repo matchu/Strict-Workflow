@@ -325,7 +325,7 @@ var notification, mainPomodoro = new Pomodoro({
       //        notification appear and disappear in a flash.
       // To Do: International strings      
       if(PREFS.autoMode) {
-         mainPomodoro.start();
+         setTimeout(function(){mainPomodoro.start();}, 30000);
       }
       
     },
