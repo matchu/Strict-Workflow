@@ -111,5 +111,18 @@
         "example": "25"
       }
     }
+  },
+
+  "start_next_work": {
+    "message": "Start work timer",
+    "description": "Button to start the next work timer"
+  },
+  "start_next_break": {
+    "message": "Start break timer",
+    "description": "Button to start the next break timer"
+  },
+  "exit": {
+    "message": "Done working",
+    "description": "Button to click when there's no more work to do"
   }
 }
