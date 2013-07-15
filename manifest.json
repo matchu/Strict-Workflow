@@ -1,7 +1,7 @@
 {
    "background": {
-      "scripts": ["phases.js", "browserAction.js", "blocking/router.js",
-                  "eventPage.js"],
+      "scripts": ["options/storage.js", "phases.js", "browserAction.js",
+                  "blocking/router.js", "eventPage.js"],
       "persistent": false
    },
    "browser_action": {
@@ -24,7 +24,7 @@
    },
    "manifest_version": 2,
    "name": "__MSG_ext_name__",
-   "options_page": "options.html",
+   "options_page": "options/edit.html",
    "permissions": [ "alarms", "notifications", "tabs", "storage", "<all_urls>" ],
    "version": "1.6.1",
    "web_accessible_resources": [

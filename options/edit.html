@@ -3,13 +3,11 @@
   <head>
     <title data-i18n="options_title"></title>
 
-    <link rel="stylesheet" href="chrome://resources/css/widgets.css">
     <style type="text/css">
       body {
-        background: url(icons/work_full.png) no-repeat fixed right bottom;
+        background: url(/icons/work_full.png) no-repeat fixed right bottom;
         font-family: 'Lucida Grande', sans-serif;
         color: rgb(48, 57, 66);
-        -webkit-user-select: none;
         padding: 1.5em;
         margin: 0;
       }
@@ -33,7 +31,7 @@
         margin-bottom: .25em;
       }
 
-      #site-list {
+      #site-list-sites {
         height: 16em;
         width: 30em;
         padding: 5px;
@@ -104,13 +102,13 @@
     <form id="options-form">
       <div id="site-list-wrapper">
         <header id="site-list-header">
-          <select id="blacklist-or-whitelist">
-            <option data-i18n="options_blacklist_verb"></option>
-            <option data-i18n="options_whitelist_verb"></option>
+          <select id="site-list-type">
+            <option value="blacklist" data-i18n="options_blacklist_verb"></option>
+            <option value="whitelist" data-i18n="options_whitelist_verb"></option>
           </select>
           <span data-i18n="options_site_list_header"></span>
         </header>
-        <textarea id="site-list"></textarea>
+        <textarea id="site-list-sites"></textarea>
         <p class="note" data-i18n="options_site_list_info"></p>
         <p class="note" data-i18n="options_site_list_syntax"></p>
       </div>
@@ -128,24 +126,19 @@
         <span id="time-format-error" data-i18n="options_time_format_error"></span>
       </div>
       <div>
-        <input id="show-notifications" type="checkbox" />
-        <label for="show-notifications" data-i18n="options_show_notifications"></label>
+        <input id="notifications" type="checkbox" />
+        <label for="notifications" data-i18n="options_show_notifications"></label>
       </div>
       <div>
-        <input id="should-ring" type="checkbox" />
-        <label for="should-ring" data-i18n="options_should_ring"></label>
-      </div>
-      <div>
-        <input id="click-restarts" type="checkbox" />
-        <label for="click-restarts">
-          <span data-i18n="options_click_restarts"></span>
-          <p class="note" data-i18n="options_click_restarts_note"></p>
-        </label>
+        <input id="audio" type="checkbox" />
+        <label for="audio" data-i18n="options_should_ring"></label>
       </div>
       <button type="submit" id="save-button" data-i18n="options_save_changes"></button>
       <span id="save-successful" data-i18n="options_save_successful"></span>
     </form>
-    <script type="text/javascript" src="options.js"></script>
+    <script type="text/javascript" src="/phases.js"></script>
+    <script type="text/javascript" src="/options/storage.js"></script>
+    <script type="text/javascript" src="/options/edit.js"></script>
   </body>
 </html>
 
