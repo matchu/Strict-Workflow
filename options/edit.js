@@ -78,7 +78,7 @@ FORM.root.addEventListener("submit", function(e) {
         "break": parseDuration(FORM.durations["break"].value)
       },
       "notifications": FORM.notifications.checked,
-      "audio": FORM.notifications.checked
+      "audio": FORM.audio.checked
     }, function() {
       if (!chrome.runtime.lastError) {
         FORM.saveSuccess.classList.add("show");
