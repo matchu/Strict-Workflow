@@ -87,7 +87,7 @@ FORM.root.addEventListener("submit", function(e) {
       }
     });
   } catch (e) {
-    if (e != INVALID_DURATION_ERROR) throw e;
+    if (e !== INVALID_DURATION_ERROR) throw e;
     FORM.timeFormatError.classList.add("show");
   }
 });

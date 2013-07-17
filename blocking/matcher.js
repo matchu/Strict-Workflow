@@ -23,7 +23,7 @@ function SiteMatcher(siteList) {
       /path/to ~> /path/to: pass
       /path/to/ ~> /path/to/location: fail
     */
-    return !against || test.substr(0, against.length) == against;
+    return !against || test.substr(0, against.length) === against;
   }
 
   function domainsMatch(test, against) {
