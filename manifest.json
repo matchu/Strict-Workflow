@@ -11,7 +11,7 @@
    "content_scripts": [
       {
          "matches": ["<all_urls>"],
-         "css": ["blocking/content.css"],
+         "css": ["controls.css", "blocking/content.css"],
          "js": ["options/storage.js", "phases.js", "blocking/matcher.js",
                 "controls.js", "blocking/content.js"],
          "run_at": "document_end"
