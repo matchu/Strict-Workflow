@@ -341,7 +341,7 @@ var notification, mainPomodoro = new Pomodoro({
       } else {
         executeInAllBlockedTabs('unblock');
       }
-      if(notification) notification.cancel();
+      if(notification) setTimeout(function(){notification.cancel();}, '10000');
       var tabViews = chrome.extension.getViews({type: 'tab'}), tab;
       for(var i in tabViews) {
         tab = tabViews[i];
