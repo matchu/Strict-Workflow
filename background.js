@@ -37,6 +37,8 @@ function defaultPrefs() {
     },
     shouldRing: true,
     clickRestarts: false,
+    autostartWork: false,
+    autostartBreak: true,
     whitelist: false
   }
 }
@@ -319,7 +321,11 @@ var notification, mainPomodoro = new Pomodoro({
         RING.play();
       }
       
-      if(nextModeName == 'break') {
+      if(nextModeName == 'break' && PREFS.autostartBreak) {
+        mainPomodoro.start();
+      }
+      
+      if(nextModeName == 'work' && PREFS.autostartWork) {
         mainPomodoro.start();
       }
     },
