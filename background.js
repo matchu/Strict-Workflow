@@ -319,7 +319,7 @@ var notification, mainPomodoro = new Pomodoro({
         RING.play();
       }
       
-      if(nextModeName == Pomodoro.mostRecentMode) {
+      if(nextModeName == 'break') {
         mainPomodoro.start();
       }
     },
