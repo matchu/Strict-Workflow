@@ -78,6 +78,14 @@
     "message": "By the strictness philosophy, the only way to <em>cancel</em> a running timer is to disable the extension.",
     "description": "On the options page, note below the label for the click-restarts checkbox explaining that this will not allow users to *cancel* a running timer"
   },
+  "options_autostart_work": {
+    "message": "Automatically start a work timer once the break is over",
+    "description": "On the options page, label for the checkbox that enables/disables starting a work timer automatically once the break is over"
+  },
+  "options_autostart_break": {
+    "message": "Automatically start a break timer once the pomodoro is over",
+    "description": "On the options page, label for the checkbox that enables/disables starting a break timer automatically once the pomodoro is over"
+  },
   "options_save_changes": {
     "message": "Save changes",
     "description": "On the options page, text for the submit button"
