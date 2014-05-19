@@ -37,6 +37,8 @@ function defaultPrefs() {
     },
     shouldRing: true,
     clickRestarts: false,
+    autostartWork: false,
+    autostartBreak: true,
     whitelist: false
   }
 }
@@ -297,8 +299,8 @@ var notification, mainPomodoro = new Pomodoro({
       });
       chrome.browserAction.setBadgeText({text: ''});
       
+      var nextModeName = chrome.i18n.getMessage(timer.pomodoro.nextMode);
       if(PREFS.showNotifications) {
-        var nextModeName = chrome.i18n.getMessage(timer.pomodoro.nextMode);
         notification = webkitNotifications.createNotification(
           ICONS.FULL[timer.type],
           chrome.i18n.getMessage("timer_end_notification_header"),
@@ -318,6 +320,14 @@ var notification, mainPomodoro = new Pomodoro({
         console.log("playing ring", RING);
         RING.play();
       }
+      
+      if(nextModeName == 'break' && PREFS.autostartBreak) {
+        mainPomodoro.start();
+      }
+      
+      if(nextModeName == 'work' && PREFS.autostartWork) {
+        mainPomodoro.start();
+      }
     },
     onStart: function (timer) {
       chrome.browserAction.setIcon({
@@ -331,7 +341,7 @@ var notification, mainPomodoro = new Pomodoro({
       } else {
         executeInAllBlockedTabs('unblock');
       }
-      if(notification) notification.cancel();
+      if(notification) setTimeout(function(){notification.cancel();}, '10000');
       var tabViews = chrome.extension.getViews({type: 'tab'}), tab;
       for(var i in tabViews) {
         tab = tabViews[i];
