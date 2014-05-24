@@ -16,7 +16,7 @@ var Phases = {
     },
     "break": {
       blocked: false,
-      on: {alarm: "afterBreak"},
+      on: {alarm: "afterBreak", next: "work", exit: "free"},
       browserAction: {badgeBackgroundColor: [0, 192, 0, 255]}
     },
     "afterBreak": {
@@ -40,12 +40,17 @@ var Phases = {
       callback(Phases.get(phaseName), completeAt);
     });
   },
+  _getDurationFor: function(phaseName, callback) {
+    Options.get("durations", function(items) {
+      callback(items.durations[phaseName]);
+    });
+  },
   setCurrentName: function(phaseName) {
     var phase = Phases.get(phaseName);
     // TODO: skip this get for untimed phases
-    Options.get("durations", function(items) {
+    this._getDurationFor(phaseName, function(duration) {
       if (phase.on.alarm) {
-        var completeAt = Date.now() + items.durations[phaseName];
+        var completeAt = Date.now() + duration;
         chrome.alarms.create("phaseComplete", {when: completeAt});
       }
       var phaseState = {

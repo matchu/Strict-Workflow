@@ -24,7 +24,8 @@ var Options = {
       "break": 5000
     },
     "notifications": true,
-    "audio": true
+    "audio": true,
+    "warnAboutReblocking": true
   },
   _formatKey: function(key) { return "prefs." + key },
   _unformatKey: function(key) { return key.substr("prefs.".length) },
