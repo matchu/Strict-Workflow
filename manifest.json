@@ -1,7 +1,7 @@
 {
    "background": {
       "scripts": ["options/storage.js", "phases.js", "browserAction.js",
-                  "notifications/events.js", "blocking/router.js",
+                  "notifications.js", "blocking/router.js",
                   "eventPage.js"],
       "persistent": false
    },
