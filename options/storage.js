@@ -20,8 +20,8 @@ var Options = {
       "type": "blacklist"
     },
     "durations": {
-      "work": 5000,
-      "break": 5000
+      "work": 25 * 60 * 1000,
+      "break": 5 * 60 * 1000
     },
     "notifications": true,
     "audio": true,
