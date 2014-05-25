@@ -27,8 +27,8 @@ var Options = {
     "audio": true,
     "warnAboutReblocking": true
   },
-  _formatKey: function(key) { return "prefs." + key },
-  _unformatKey: function(key) { return key.substr("prefs.".length) },
+  _formatKey: function(key) { return "options." + key },
+  _unformatKey: function(key) { return key.substr("options.".length) },
   _transformItems: function(items, transformKey) {
     var newItems = {};
     Object.keys(items).forEach(function(key) {
