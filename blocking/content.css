@@ -1,5 +1,5 @@
 /* When blocked, hide all non-overlay elements, so we don't have to get into a
-   z-index fight. Not perfect, but it helps.(Text nodes that are direct
+   z-index fight. Not perfect, but it helps. (Text nodes that are direct
    children of the body will not be hidden by this rule, but that's okay, since
    they also can't be given a z-index and will therefore be covered up.) */
 html.__MSG_@@extension_id__-blocked body > * {
