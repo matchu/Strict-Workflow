@@ -13,7 +13,7 @@ Phases.onChanged.addListener(function(phaseName, completeAt) {
           type: "basic",
           title: "Ring, ring!", // TODO
           message: "That's the end of this timer, bro.", // TODO
-          iconUrl: "icons/notifications/" + phaseName + ".png",
+          iconUrl: phase.notification.iconUrl,
           buttons: [
             {title: chrome.i18n.getMessage("start_next_" + phase.on.next)},
             {title: chrome.i18n.getMessage("exit")}

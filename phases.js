@@ -12,7 +12,7 @@ var Phases = {
     "afterWork": {
       blocked: true,
       on: {next: "break", exit: "free"},
-      notification: true
+      notification: {iconUrl: "icons/icon128.png"}
     },
     "break": {
       blocked: false,
@@ -22,7 +22,7 @@ var Phases = {
     "afterBreak": {
       blocked: true,
       on: {next: "work", exit: "free"},
-      notification: true
+      notification: {iconUrl: "icons/icon128_green.png"}
     }
   },
   _DEFAULT_STATE: {name: "free", completeAt: null},
