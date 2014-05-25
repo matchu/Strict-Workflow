@@ -2,8 +2,7 @@ function updateBadgeText(completeAt) {
   if (completeAt) {
     var timeRemainingInMilliseconds = completeAt - Date.now();
     var timeRemainingInMinutes = Math.round(timeRemainingInMilliseconds / 1000 / 60);
-    var text = chrome.i18n.getMessage("browser_action_badge_time_remaining",
-                                      [timeRemainingInMinutes]);
+    var text = timeRemainingInMinutes.toString();
   } else {
     var text = "";
   }
