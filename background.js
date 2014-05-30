@@ -299,19 +299,13 @@ var notification, mainPomodoro = new Pomodoro({
       
       if(PREFS.showNotifications) {
         var nextModeName = chrome.i18n.getMessage(timer.pomodoro.nextMode);
-        notification = webkitNotifications.createNotification(
-          ICONS.FULL[timer.type],
-          chrome.i18n.getMessage("timer_end_notification_header"),
-          chrome.i18n.getMessage("timer_end_notification_body", nextModeName)
-        );
-        notification.onclick = function () {
-          console.log("Will get last focused");
-          chrome.windows.getLastFocused(function (window) {
-            chrome.windows.update(window.id, {focused: true});
-          });
-          this.cancel();
-        };
-        notification.show();
+        chrome.notifications.create("", {
+          type: "basic",
+          title: chrome.i18n.getMessage("timer_end_notification_header"),
+          message: chrome.i18n.getMessage("timer_end_notification_body",
+                                          nextModeName),
+          iconUrl: ICONS.FULL[timer.type]
+        }, function() {});
       }
       
       if(PREFS.shouldRing) {
@@ -362,3 +356,10 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   }
 });
 
+chrome.notifications.onClicked.addListener(function (id) {
+  // Clicking the notification brings you back to Chrome, in whatever window
+  // you were last using.
+  chrome.windows.getLastFocused(function (window) {
+    chrome.windows.update(window.id, {focused: true});
+  });
+});
