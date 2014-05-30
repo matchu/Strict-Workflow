@@ -1,4 +1,8 @@
 {
+  "ext_name": {
+    "message": "Strict Workflow",
+    "description": "Name of the extension"
+  },
   "ext_description": {
     "message": "Блокирует отвлекающие вас веб-сайты, дабы вы могли работать по технике управления временем «помодоро»",
     "description": "Description of the extension"
