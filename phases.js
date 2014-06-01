@@ -2,59 +2,129 @@ var Phases = {
   _ALL: {
     "free": {
       blocked: false,
-      on: {next: "work"}
+      on: {
+        always: {
+          next: {
+            start: "work"
+          }
+        }
+      },
+      browserAction: {
+        badgeBackgroundColor: [192, 0, 0, 255],
+        iconUrl: "icons/work_pending.png"
+      }
     },
     "work": {
       blocked: true,
       on: {
-        alarm: {
-          whenRemainingCycles: "break",
-          whenNoRemainingCycles: "afterWork"
+        whenRemainingCycles: {
+          alarm: {
+            start: "break",
+            notification: {
+              iconUrl: "icons/icon128_green.png",
+              message: "Your scheduled break timer has just started. Enjoy!" // TODO
+            }
+          },
+        },
+        whenNoRemainingCycles: {
+          alarm: {
+            start: "afterWork",
+            notification: {
+              iconUrl: "icons/icon128.png",
+              message: "Good work! Now it's time for a break." // TODO
+            }
+          }
         }
       },
-      browserAction: {badgeBackgroundColor: [192, 0, 0, 255]},
-      decrementRemainingCyclesOn: "alarm"
+      browserAction: {
+        badgeBackgroundColor: [192, 0, 0, 255],
+        iconUrl: "icons/work.png"
+      }
     },
     "afterWork": {
       blocked: true,
       on: {
-        next: "break",
-        exit: "free"
+        always: {
+          next: {start: "break"},
+          exit: {start: "free"}
+        }
       },
-      notification: {iconUrl: "icons/icon128.png"}
+      browserAction: {
+        badgeBackgroundColor: [192, 0, 0, 255],
+        iconUrl: "icons/work_pending.png"
+      },
+      controls: {
+        next: chrome.i18n.getMessage("start_next_break"),
+        exit: chrome.i18n.getMessage("exit")
+      }
     },
     "break": {
       blocked: false,
       on: {
-        alarm: {
-          whenRemainingCycles: "work",
-          whenNoRemainingCycles: "afterBreak"
+        always: {
+          next: {start: "work"}
         },
-        next: "work",
-        exit: "free"
+        whenRemainingCycles: {
+          alarm: {
+            start: "work",
+            changeInRemainingCycles: -1,
+            notification: {
+              iconUrl: "icons/icon128.png",
+              message: "Your scheduled work timer has just started. Get to it!" // TODO
+            }
+          },
+        },
+        whenNoRemainingCycles: {
+          alarm: {
+            start: "afterBreak",
+            notification: {
+              iconUrl: "icons/icon128_green.png",
+              message: "Now that you're relaxed, it's time to get back to work." // TODO
+            }
+          },
+          exit: {whenNoRemainingCycles: {start: "free"}}
+        }
       },
-      browserAction: {badgeBackgroundColor: [0, 192, 0, 255]}
+      browserAction: {
+        badgeBackgroundColor: [0, 192, 0, 255],
+        iconUrl: "icons/break.png"
+      },
+      controls: {
+        next: chrome.i18n.getMessage("start_next_work"),
+        exit: chrome.i18n.getMessage("exit")
+      }
     },
     "afterBreak": {
       blocked: true,
-      on: {next: "work", exit: "free"},
-      notification: {iconUrl: "icons/icon128_green.png"}
+      on: {
+        always: {
+          next: {start: "work"},
+          exit: {start: "free"}
+        }
+      },
+      browserAction: {
+        badgeBackgroundColor: [0, 192, 0, 255],
+        iconUrl: "icons/break_pending.png"
+      },
+      controls: {
+        next: chrome.i18n.getMessage("start_next_work"),
+        exit: chrome.i18n.getMessage("exit")
+      }
     }
   },
-  _DEFAULT_STATE: {name: "free", completeAt: null, remainingCycles: 0},
+  _DEFAULT_STATE: {phaseName: "free", completeAt: null, remainingCycles: 0},
   get: function(phaseName) { return this._ALL[phaseName] },
   getCurrentState: function(callback) {
     chrome.storage.local.get(
       {phaseState: this._DEFAULT_STATE},
       function(items) {
-        callback(items.phaseState.name, items.phaseState.completeAt,
-                 items.phaseState.remainingCycles);
+        callback(items.phaseState);
       }
     );
   },
   getCurrent: function(callback) {
-    this.getCurrentState(function(phaseName, completeAt, remainingCycles) {
-      callback(Phases.get(phaseName), completeAt, remainingCycles);
+    this.getCurrentState(function(state) {
+      callback(Phases.get(state.phaseName), state);
     });
   },
   _getDurationFor: function(phaseName, callback) {
@@ -62,27 +132,39 @@ var Phases = {
       callback(items.durations[phaseName]);
     });
   },
-  setCurrentName: function(newPhaseName, changeInRemainingCycles) {
-    console.assert(typeof newPhaseName === 'string');
+  startTransition: function(transition) {
+    var newPhaseName = transition.start;
     var newPhase = Phases.get(newPhaseName);
-    console.assert(typeof newPhase === 'object');
-    Phases.getCurrentState(function(oldPhase, _, remainingCycles) {
+    Phases.getCurrentState(function(oldState) {
       // TODO: skip this get for untimed phases
       Phases._getDurationFor(newPhaseName, function(duration) {
-        var newPhaseState = {name: newPhaseName};
+        var newPhaseState = {phaseName: newPhaseName};
 
-        if (newPhase.on.alarm) {
+        var changeInRemainingCycles = transition.changeInRemainingCycles || 0;
+        newPhaseState.remainingCycles =
+          oldState.remainingCycles + changeInRemainingCycles;
+        // The phase state machine should only decrement when it knows that
+        // there are remaining cycles, and the UI should block attempts to
+        // do anything but add cycles, but this assertion helps us check those
+        // assumptions during development.
+        console.assert(newPhaseState.remainingCycles >= 0);
+
+        chrome.alarms.clear("phaseComplete", function() {});
+        var transitions = Phases.getTransitions(newPhaseState);
+        if ("alarm" in transitions) {
           newPhaseState.completeAt = Date.now() + duration;
           chrome.alarms.create("phaseComplete", {
             when: newPhaseState.completeAt
           });
         }
 
-        newPhaseState.remainingCycles =
-          Math.max(remainingCycles + changeInRemainingCycles, 0);
-
         chrome.storage.local.set({phaseState: newPhaseState}, function() {
-          chrome.runtime.sendMessage({phaseChanged: newPhaseState});
+          chrome.runtime.sendMessage({
+            phaseChanged: {
+              newPhaseState: newPhaseState,
+              transition: transition
+            }
+          });
         });
       });
     });
@@ -93,30 +175,41 @@ var Phases = {
         if ("phaseChanged" in request) {
           console.log("Phase change request", request);
           var e = request.phaseChanged;
-          callback(e.name, e.completeAt);
+          callback(e.newPhaseState, e.transition);
         }
       });
     }
   },
-  trigger: function(actionName) {
-    this.getCurrent(function(oldPhase, _, remainingCycles) {
-      var behavior = oldPhase.on[actionName];
-      if (typeof behavior === 'string') {
-        var newPhaseName = behavior;
-      } else if (typeof behavior === 'object') {
-        if (remainingCycles > 0) {
-          var newPhaseName = behavior.whenRemainingCycles;
-        } else {
-          var newPhaseName = behavior.whenNoRemainingCycles;
-        }
-      }
+  getTransitions: function(state) {
+    var transitions = {};
 
-      if (actionName === oldPhase.decrementRemainingCyclesOn) {
-        changeInRemainingCycles = -1;
-      } else {
-        changeInRemainingCycles = 0;
+    function addTransitions(someTransitions) {
+      if (typeof someTransitions === 'object') {
+        Object.keys(someTransitions).forEach(function(key) {
+          transitions[key] = someTransitions[key];
+        });
       }
-      Phases.setCurrentName(newPhaseName, changeInRemainingCycles);
+    }
+
+    var phase = this.get(state.phaseName);
+
+    addTransitions(phase.on.always);
+    if (state.remainingCycles > 0) {
+      addTransitions(phase.on.whenRemainingCycles);
+    } else {
+      addTransitions(phase.on.whenNoRemainingCycles);
+    }
+
+    return transitions;
+  },
+  getCurrentTransitions: function(callback) {
+    this.getCurrentState(function(state) {
+      callback(Phases.getTransitions(state));
+    });
+  },
+  trigger: function(actionName) {
+    this.getCurrentTransitions(function(transitions) {
+      Phases.startTransition(transitions[actionName]);
     });
   }
 };

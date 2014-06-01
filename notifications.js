@@ -1,23 +1,32 @@
-Phases.onChanged.addListener(function(phaseName, completeAt) {
-  var phase = Phases.get(phaseName);
+Phases.onChanged.addListener(function(state, transition) {
+  var phase = Phases.get(state.phaseName);
+  var transitions = Phases.getTransitions(state);
 
   // When a new phase starts, previous notifications are no longer relevant.
   chrome.notifications.clear("warning", function() {});
   chrome.notifications.clear("complete", function() {});
 
   // Completion notification
-  if (phase.notification) {
+  if (transition.notification) {
     Options.get(["notifications", "audio"], function(items) {
       if (items.notifications) {
+        var buttons = [];
+        if (transitions.next) {
+          buttons.push({
+            title: phase.controls.next
+          });
+        }
+        if (transitions.exit) {
+          buttons.push({
+            title: phase.controls.exit
+          });
+        }
         chrome.notifications.create("complete", {
           type: "basic",
           title: "Ring, ring!", // TODO
-          message: "That's the end of this timer, bro.", // TODO
-          iconUrl: phase.notification.iconUrl,
-          buttons: [
-            {title: chrome.i18n.getMessage("start_next_" + phase.on.next)},
-            {title: chrome.i18n.getMessage("exit")}
-          ]
+          message: transition.notification.message,
+          iconUrl: transition.notification.iconUrl,
+          buttons: buttons
         }, function() {});
       }
       if (items.audio) {
@@ -29,8 +38,9 @@ Phases.onChanged.addListener(function(phaseName, completeAt) {
 
   // Schedule warning notification
   console.log("Considering warning phase: ", phase);
-  if (phase.on.alarm && !phase.blocked) {
-    var nextPhase = Phases.get(phase.on.alarm);
+  if ("alarm" in transitions && !phase.blocked) {
+    // TODO: fold this into the current state options instead
+    var nextPhase = Phases.get(phase.on.alarm.start);
     console.log("Considering warning next phase:", nextPhase);
     if (nextPhase.blocked) {
       Options.get(["warnAboutReblocking"], function(items) {
@@ -44,7 +54,7 @@ Phases.onChanged.addListener(function(phaseName, completeAt) {
                      "re-blocked immediately. " +
                      "Don't start something if you can't finish it by the end " +
                      "of the break.", // TODO
-            iconUrl: "icons/notifications/" + phase.on.alarm + ".png",
+            iconUrl: "icons/notifications/" + phase.on.alarm.start + ".png",
             buttons: [
               {title: "Got it; never warn me again."} // TODO
             ]

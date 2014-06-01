@@ -124,8 +124,8 @@ function toggleBlocked(phase) {
   FORM.durations["break"].disabled = phase.blocked;
 }
 
-Phases.onChanged.addListener(function(phaseName) {
-  toggleBlocked(Phases.get(phaseName));
+Phases.onChanged.addListener(function(state) {
+  toggleBlocked(Phases.get(state.phaseName));
 });
 
 Phases.getCurrent(toggleBlocked);

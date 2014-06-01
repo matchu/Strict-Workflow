@@ -10,7 +10,7 @@ chrome.alarms.onAlarm.addListener(function(alarm) {
 function reset() {
   console.log("Resetting.");
   chrome.alarms.clearAll();
-  Phases.setCurrentName("free");
+  Phases.startTransition({start: "free"});
 }
 
 chrome.runtime.onStartup.addListener(reset);

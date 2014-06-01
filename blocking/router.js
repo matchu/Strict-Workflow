@@ -3,16 +3,20 @@
 //       consider keeping track of the tabs to decide when we even need to
 //       inject the script at all. Warning: more difficult than it seems.
 
-function forwardPhaseChanged(tabId, phaseName) {
-  chrome.tabs.sendMessage(tabId, {phaseChanged: {name: phaseName,
-                                                 completeAt: null}});
+function forwardPhaseChanged(tabId, state, transition) {
+  chrome.tabs.sendMessage(tabId, {
+    phaseChanged: {
+      newPhaseState: state,
+      transition: transition
+    }
+  });
 }
 
 // Forward phase changes to listening tabs
-Phases.onChanged.addListener(function(phaseName) {
+Phases.onChanged.addListener(function(state, transition) {
   chrome.tabs.query({}, function(tabs) {
     tabs.forEach(function(tab) {
-      forwardPhaseChanged(tab.id, phaseName);
+      forwardPhaseChanged(tab.id, state, transition);
     });
   });
 });

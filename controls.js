@@ -1,17 +1,17 @@
 var Controls = {
-  build: function(phase) {
+  build: function(phase, transitions) {
     var wrapper = document.createElement("div");
     wrapper.className = chrome.i18n.getMessage("@@extension_id") + "-controls";
 
-    if (phase.on.next) {
+    if (transitions.next) {
       var nextButton = this._buildOne("next");
-      nextButton.innerText = chrome.i18n.getMessage("start_next_" + phase.on.next);
+      nextButton.innerText = phase.controls.next;
       wrapper.appendChild(nextButton);
     }
 
-    if (phase.on.exit) {
+    if (transitions.exit) {
       var exitButton = this._buildOne("exit");
-      exitButton.innerText = chrome.i18n.getMessage("exit");
+      exitButton.innerText = phase.controls.exit;
       wrapper.appendChild(exitButton);
     }
 

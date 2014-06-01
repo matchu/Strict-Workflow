@@ -39,17 +39,16 @@ function unblock() {
   document.body.removeChild(overlay);
 }
 
-function updateOverlay(phase) {
+function updateOverlay(phase, transitions) {
   if (blocked) {
-    console.log("OMG we're blocked! Update overlay!", phase, phase.on.next);
     if (controls) overlay.removeChild(controls);
-    controls = Controls.build(phase);
+    controls = Controls.build(phase, transitions);
     overlay.appendChild(controls);
   }
 }
 
-function toggleBlocked(phase) {
-  console.log("Current phase:", phase);
+function toggleBlocked(phase, state) {
+  var transitions = Phases.getTransitions(state);
   if (phase.blocked !== blocked) {
     // TODO: forward matcher with phase changes to avoid redundant lookups?
     SiteMatcher.getCurrent(function(matcher) {
@@ -60,15 +59,15 @@ function toggleBlocked(phase) {
           unblock();
         }
       }
-      updateOverlay(phase);
+      updateOverlay(phase, transitions);
     });
   } else {
-    updateOverlay(phase);
+    updateOverlay(phase, transitions);
   }
 }
 
-Phases.onChanged.addListener(function(phaseName) {
-  toggleBlocked(Phases.get(phaseName));
+Phases.onChanged.addListener(function(state) {
+  toggleBlocked(Phases.get(state.phaseName), state);
 });
 
 Phases.getCurrent(toggleBlocked);
