@@ -3,9 +3,7 @@
 // it's explicitly only in our event page to avoid duplicate calls.
 chrome.alarms.onAlarm.addListener(function(alarm) {
   if (alarm.name === "phaseComplete") {
-    Phases.getCurrent(function(phase) {
-      Phases.setCurrentName(phase.on.alarm);
-    });
+    Phases.trigger("alarm");
   }
 });
 
