@@ -92,6 +92,18 @@ var Phases = {
       controls: {
         next: chrome.i18n.getMessage("start_next_work"),
         exit: chrome.i18n.getMessage("exit")
+      },
+      warningNotification: {
+        type: "basic",
+        title: "Careful!", // TODO
+        message: "Once this break is over, distracting pages will be " +
+                 "re-blocked immediately. " +
+                 "Don't start something if you can't finish it by the end " +
+                 "of the break.", // TODO
+        iconUrl: "icons/icon128_green.png",
+        buttons: [
+          {title: "Got it; never warn me again."} // TODO
+        ]
       }
     },
     "afterBreak": {

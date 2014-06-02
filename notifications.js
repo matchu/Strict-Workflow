@@ -38,34 +38,13 @@ Phases.onChanged.addListener(function(state, transition) {
 
   // Schedule warning notification
   console.log("Considering warning phase: ", phase);
-  if ("alarm" in transitions && !phase.blocked) {
-    // TODO: fold this into the current state options instead
-    var nextPhase = Phases.get(phase.on.alarm.start);
-    console.log("Considering warning next phase:", nextPhase);
-    if (nextPhase.blocked) {
-      Options.get(["warnAboutReblocking"], function(items) {
-        if (items.warnAboutReblocking) {
-          // Okay, this is an unblocked phase that goes to a blocked phase by
-          // alarm. That can be jarring, so warn the user that it's gonna happen.
-          chrome.notifications.create("warning", {
-            type: "basic",
-            title: "Careful!", // TODO
-            message: "Once this break is over, distracting pages will be " +
-                     "re-blocked immediately. " +
-                     "Don't start something if you can't finish it by the end " +
-                     "of the break.", // TODO
-            iconUrl: "icons/notifications/" + phase.on.alarm.start + ".png",
-            buttons: [
-              {title: "Got it; never warn me again."} // TODO
-            ]
-          }, function() {});
-        }
-      });
-    }
-  } else {
-    // Clearing the timer may throw an warning if it doesn't exist yet, but
-    // it'll happen asynchronously and not interrupt the current function.
-    chrome.alarms.clear("warningNotification");
+  if ("warningNotification" in phase) {
+    Options.get(["warnAboutReblocking"], function(items) {
+      if (items.warnAboutReblocking) {
+        chrome.notifications.create("warning", phase.warningNotification,
+                                    function() {});
+      }
+    });
   }
 });
 
