@@ -51,7 +51,7 @@ var Phases = {
       },
       browserAction: {
         badgeBackgroundColor: [192, 0, 0, 255],
-        iconUrl: "icons/work_pending.png"
+        iconUrl: "icons/break_pending.png"
       },
       controls: {
         next: chrome.i18n.getMessage("start_next_break"),
@@ -116,7 +116,7 @@ var Phases = {
       },
       browserAction: {
         badgeBackgroundColor: [0, 192, 0, 255],
-        iconUrl: "icons/break_pending.png"
+        iconUrl: "icons/work_pending.png"
       },
       controls: {
         next: chrome.i18n.getMessage("start_next_work"),
