@@ -1,11 +1,3 @@
-/* When blocked, hide all non-overlay elements, so we don't have to get into a
-   z-index fight. Not perfect, but it helps. (Text nodes that are direct
-   children of the body will not be hidden by this rule, but that's okay, since
-   they also can't be given a z-index and will therefore be covered up.) */
-html.__MSG_@@extension_id__-blocked body > * {
-    display: none;
-}
-
 #__MSG_@@extension_id__-overlay {
     background-image: url('chrome-extension://__MSG_@@extension_id__/icons/work_full.png'),
                       -webkit-linear-gradient(bottom, #ccc 0%, #fff 75%);
@@ -22,6 +14,14 @@ html.__MSG_@@extension_id__-blocked body > * {
     text-align: center;
     top: 0;
     width: 100%;
+    /* Believe it or not, this is the largest z-index that Chrome 35 won't
+     * overflow to 0. So, this is how we win the z-index wars - unless someone
+     * else tries the same thing ;P It seems kinda weird to be this nuclear,
+     * but the point *is* to overlay all other content on the page, even if it
+     * came from another extension. For what it's worth, we considered hiding
+     * all other elements to avoid this war, but that also resets Flash and
+     * other plugins, and it'd be nice to avoid losing work where possible. */
+    z-index: 179769313486231479999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999;
 }
 
 #__MSG_@@extension_id__-overlay p {
