@@ -304,6 +304,7 @@ var notification, mainPomodoro = new Pomodoro({
           title: chrome.i18n.getMessage("timer_end_notification_header"),
           message: chrome.i18n.getMessage("timer_end_notification_body",
                                           nextModeName),
+          priority: 2,
           iconUrl: ICONS.FULL[timer.type]
         }, function() {});
       }
