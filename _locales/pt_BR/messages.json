@@ -92,7 +92,7 @@
     "description": "Bold header of pop-up notification when a timer ends"
   },
   "timer_end_notification_body": {
-    "message": "Hora de $TYPE$ .",
+    "message": "Hora de $TYPE$.",
     "description": "Body of pop-up notification when a timer ends",
     "placeholders": {
       "type": {
