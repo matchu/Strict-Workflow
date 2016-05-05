@@ -1,0 +1,104 @@
+{
+  "ext_name": {
+    "message": "Strict Workflow",
+    "description": "Name of the extension"
+  },
+  "ext_description": {
+    "message": "Técnica de trabajo 25min/5min: 25 minutos de trabajo libre de distracciones, seguido de 5 minutos de descanso. Repitiendo si es necesario.",
+    "description": "Description of the extension"
+  },
+  
+  "work": {
+    "message": "trabajo",
+    "description": "The name of the work timer"
+  },
+  "break": {
+    "message": "descanso",
+    "description": "The name of the break timer"
+  },
+  "minutes": {
+    "message": "minutos",
+    "description": "The name of the time interval representing 60 seconds"
+  },
+  
+  "site_blocked_info": {
+    "message": "Página bloqueada mientras no empieces un nuevo descanso.",
+    "description": "Text for the blocked-site overlay, explaining that the site is blocked and when it will become unblocked"
+  },
+  "site_blocked_motivator": {
+    "message": "Vuelta al trabajo!",
+    "description": "Text for the blocked-site overlay, motivating the user to get back to work"
+  },
+  
+  "options_title": {
+    "message": "Opciones Strict Workflow",
+    "description": "The title of the options page"
+  },
+  "options_blacklist_verb": {
+    "message": "Bloquear",
+    "description": "On options page, the dropdown option that indicates the sites are a blacklist"
+  },
+  "options_whitelist_verb": {
+    "message": "Permitir solo",
+    "description": "On options page, the dropdown option that indicates the sites are a whitelist"
+  },
+  "options_site_list_header": {
+    "message": "los sitios de esta lista:",
+    "description": "On the options page, the message above the site list (with the block/only-allow dropdown before it)"
+  },
+  "options_site_list_info": {
+    "message": "Añade un sitio en cada línea, por ejemplo \"youtube.com\" o \"google.com/reader/\". Bloquearemos o permitiremos todas las url con este formato.",
+    "description": "On the options page, explains what the site list does"
+  },
+  "options_site_list_syntax": {
+    "message": "Por ejemplo, la expresión \"mail.example.com\"  no es válida para \"www.example.com\", pero \"example.com\" es válida para ambos. Similar, \"google.com/reader/\" es válida para Google Reader, pero no será válida para Google Search, Gmail, cualquier otro servicio de Google.",
+    "description": "On the options page, explains the details of the syntax of the site list"
+  },
+  "options_work_block_info": {
+    "message": "Para eliminar tentaciones, algunas opciones no pueden ser editadas durante la sesión de trabajo. Paciencia, por favor.",
+    "description": "On options page, message shown during a work session to indicate that some options are disabled"
+  },
+  "options_time_format_error": {
+    "message": "El tiempo debe estar en formato MM o MM:SS",
+    "description": "On the options page, error message indicating bad format for timer duration"
+  },
+  "options_show_notifications": {
+    "message": "Mostrar una notificación cuando el contador termine",
+    "description": "On the options page, label for the checkbox that enables/disables the notification at the end of a timer"
+  },
+  "options_should_ring": {
+    "message": "Sonar cuando el contador termine (audio)",
+    "description": "On the options page, label for the checkbox that enables/disables ringing sound at the end of a timer"
+  },
+  "options_click_restarts": {
+    "message": "Hacer click en un contador corriendo lo reinicia.",
+    "description": "On the options page, label for the checkbox that enables/disables the feature that clicking on a running timer restarts it"
+  },
+  "options_click_restarts_note": {
+    "message": "Por nuestra estricta filosofía, la única manera de <em>cancelar</em> un contador corriendo es deshabilitar la extension.",
+    "description": "On the options page, note below the label for the click-restarts checkbox explaining that this will not allow users to *cancel* a running timer"
+  },
+  "options_save_changes": {
+    "message": "Guardar cambios",
+    "description": "On the options page, text for the submit button"
+  },
+  "options_save_successful": {
+    "message": "Guardado correctamente",
+    "description": "On the options page, message to indicate that the options have been saved"
+  },
+  
+  "timer_end_notification_header": {
+    "message": "Se acabó el tiempo!",
+    "description": "Bold header of pop-up notification when a timer ends"
+  },
+  "timer_end_notification_body": {
+    "message": "Tiempo de $TYPE$.",
+    "description": "Body of pop-up notification when a timer ends",
+    "placeholders": {
+      "type": {
+        "content": "$1",
+        "example": "work"
+      }
+    }
+  }
+}
