@@ -7,7 +7,7 @@
     "message": "Enforces a 25min/5min workflow: 25 minutes of distraction-free work, followed by 5 minutes of break. Repeat as necessary.",
     "description": "Description of the extension"
   },
-  
+
   "work": {
     "message": "work",
     "description": "The name of the work timer"
@@ -20,7 +20,7 @@
     "message": "minutes",
     "description": "The name of the time interval representing 60 seconds"
   },
-  
+
   "site_blocked_info": {
     "message": "Page blocked until a break timer starts.",
     "description": "Text for the blocked-site overlay, explaining that the site is blocked and when it will become unblocked"
@@ -29,7 +29,7 @@
     "message": "Back to work!",
     "description": "Text for the blocked-site overlay, motivating the user to get back to work"
   },
-  
+
   "options_title": {
     "message": "Strict Workflow Options",
     "description": "The title of the options page"
@@ -86,7 +86,7 @@
     "message": "Save successful",
     "description": "On the options page, message to indicate that the options have been saved"
   },
-  
+
   "timer_end_notification_header": {
     "message": "Time's up!",
     "description": "Bold header of pop-up notification when a timer ends"
@@ -100,5 +100,23 @@
         "example": "work"
       }
     }
+  },
+  "contextmenu_volume_label": {
+      "message": "Volume: $volume$% (Click to test)",
+      "description": "Volume value that appears in context menu.",
+      "placeholders": {
+        "volume": {
+          "content": "$1",
+          "example": "80"
+        }
+      }
+  },
+  "contextmenu_volume_up_label": {
+      "message": "Volume Up",
+      "description": "Label that appears in context menu for \"Volume Up\"."
+  },
+  "contextmenu_volume_down_label": {
+      "message": "Volume Down",
+      "description": "Label that appears in context menu for \"Volume Down\"."
   }
 }

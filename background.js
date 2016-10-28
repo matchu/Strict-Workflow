@@ -374,13 +374,13 @@ chrome.notifications.onClicked.addListener(function (id) {
 
 chrome.contextMenus.create({
     contexts: ["browser_action"],
-    "title": "Volume Up",
+    "title": chrome.i18n.getMessage("contextmenu_volume_up_label"),
     "onclick": volumeUp
 });
 
 chrome.contextMenus.create({
     contexts: ["browser_action"],
-    "title": "Volume Down",
+    "title": chrome.i18n.getMessage("contextmenu_volume_down_label"),
     "onclick": volumeDown
 });
 
@@ -414,5 +414,5 @@ function updateVolumeLabel() {
 }
 
 function getVolumeStatusLabel() {
-    return "Volume: " + (RING.volume * 100) + "% (Click to test)";
+    return chrome.i18n.getMessage("contextmenu_volume_label", [RING.volume * 100]);
 }
