@@ -36,6 +36,7 @@ function defaultPrefs() {
       break: 5 * 60
     },
     shouldRing: true,
+    volume: 1,
     clickRestarts: false,
     whitelist: false
   }
@@ -91,9 +92,11 @@ function loadRingIfNecessary() {
   console.log('is ring necessary?');
   if(PREFS.shouldRing && !ringLoaded) {
     console.log('ring is necessary');
+    RING.volume = PREFS.volume;
     RING.onload = function () {
       console.log('ring loaded');
       ringLoaded = true;
+      RING.volume = PREFS.volume;
     }
     RING.load();
   }
@@ -388,13 +391,18 @@ var volumeLabel = chrome.contextMenus.create({
 });
 
 function volumeUp() {
-    RING.volume = (RING.volume * 10 + 1) / 10;
-    updateVolumeLabel();
+    adjustVolume(1);
 }
 
 function volumeDown() {
-    RING.volume = (RING.volume * 10 - 1) / 10;
+    adjustVolume(-1);
+}
+
+function adjustVolume(adjustBy) {
+    RING.volume = (RING.volume * 10 + adjustBy) / 10;
     updateVolumeLabel();
+    PREFS.volume = RING.volume;
+    savePrefs(PREFS);
 }
 
 function volumeTest() {
