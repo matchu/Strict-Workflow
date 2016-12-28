@@ -126,13 +126,62 @@ function Pomodoro(options) {
   this.running = false;
 
   this.onTimerEnd = function (timer) {
+ 
     this.running = false;
+    if(this.current_key && this.mostRecentMode === 'work' ) {
+        var reported_work = this.report[this.current_key];
+        var feedback = prompt( "How well did you do this pomodoro? (1-5)", "5");
+        reported_work = reported_work + ', "' + feedback + '"';
+       this.report[this.current_key] =  reported_work;
+
+        if( confirm( "Get report?" ) ) {
+            this.do_report();
+        }
+
+    }
+
+  }
+
+  this.do_report = function () {
+
+    var localStorageKeys = Object.keys( this.report );
+
+    localStorageKeys.sort();
+
+    var csv = '"Time", "Worked On", "Feedback"\n';
+
+    for ( var i = 0; i< localStorageKeys.length; i++ ) {
+        
+        var int_key = parseInt( localStorageKeys[i], 10 );
+        var reported_work = this.report[int_key];
+
+        csv += '"' + new Date( int_key ) + '"' + ", " + reported_work + '\n';
+
+    }
+    var w = window.open( "", "Pomodoro Report", "menubar=no,height=500,width=500" ); 
+    w.document.write("<pre>"+csv+"</pre>");
+  
+
   }
 
   this.start = function () {
     var mostRecentMode = this.mostRecentMode, timerOptions = {};
     this.mostRecentMode = this.nextMode;
     this.nextMode = mostRecentMode;
+
+
+    if ( this.mostRecentMode === 'work') {
+        var working_on_message = prompt("What are you working on?", "Work");
+        
+        var startTime = new Date(); 
+
+        this.current_key = startTime.getTime();
+        if( this.report === undefined) {
+            this.report = {};
+        }
+
+        this.report[this.current_key] = '"' + working_on_message + '"';
+    }
 
     for(var key in options.timer) {
       timerOptions[key] = options.timer[key];
