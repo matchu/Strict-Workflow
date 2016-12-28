@@ -306,7 +306,13 @@ var notification, mainPomodoro = new Pomodoro({
                                           nextModeName),
           priority: 2,
           iconUrl: ICONS.FULL[timer.type]
-        }, function() {});
+        }, function(id) {
+          // Wait 10 seconds and close the notification
+          // so it doesn't build up in the drawer.
+          setTimeout(function(){
+            chrome.notifications.clear(id, function() {});
+          }, 10000);
+        });
       }
       
       if(PREFS.shouldRing) {
