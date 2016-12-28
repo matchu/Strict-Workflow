@@ -313,6 +313,13 @@ var notification, mainPomodoro = new Pomodoro({
         console.log("playing ring", RING);
         RING.play();
       }
+      
+      // If auto-mode is set, restart the cycle by calling start
+      // To Do: International strings      
+      if(PREFS.autoMode) {
+         setTimeout(function(){mainPomodoro.start();}, 30000);
+      }
+      
     },
     onStart: function (timer) {
       chrome.browserAction.setIcon({
