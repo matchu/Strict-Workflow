@@ -3,7 +3,7 @@
   <head>
     <title data-i18n="options_title"></title>
 
-    <link rel="stylesheet" href="chrome://resources/css/widgets.css">
+    <!-- <link rel="stylesheet" href="chrome://resources/css/widgets.css"> -->
     <style type="text/css">
       body {
         background: url(icons/work_full.png) no-repeat fixed right bottom;
@@ -141,6 +141,12 @@
           <span data-i18n="options_click_restarts"></span>
           <p class="note" data-i18n="options_click_restarts_note"></p>
         </label>
+      </div>
+      <div>
+        <label for="goal">
+          Goal : 
+        </label>
+        <input id="goal" type="text" size="2" />
       </div>
       <button type="submit" id="save-button" data-i18n="options_save_changes"></button>
       <span id="save-successful" data-i18n="options_save_successful"></span>

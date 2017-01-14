@@ -28,12 +28,12 @@ var form = document.getElementById('options-form'),
   clickRestartsEl = document.getElementById('click-restarts'),
   saveSuccessfulEl = document.getElementById('save-successful'),
   timeFormatErrorEl = document.getElementById('time-format-error'),
+  goalEl = document.getElementById('goal');
   background = chrome.extension.getBackgroundPage(),
   startCallbacks = {}, durationEls = {};
   
 durationEls['work'] = document.getElementById('work-duration');
 durationEls['break'] = document.getElementById('break-duration');
-
 var TIME_REGEX = /^([0-9]+)(:([0-9]{2}))?$/;
 
 form.onsubmit = function () {
@@ -54,7 +54,6 @@ form.onsubmit = function () {
       return false;
     } 
   }
-  
   console.log(durations);
   
   background.setPrefs({
@@ -63,13 +62,16 @@ form.onsubmit = function () {
     showNotifications:  showNotificationsEl.checked,
     shouldRing:         shouldRingEl.checked,
     clickRestarts:      clickRestartsEl.checked,
-    whitelist:          whitelistEl.selectedIndex == 1
+    whitelist:          whitelistEl.selectedIndex == 1,
+    sessions:           background.PREFS.sessions,
+    goal:               goalEl.value
   })
   saveSuccessfulEl.className = 'show';
   return false;
 }
 
 siteListEl.onfocus = formAltered;
+goalEl.onfocus = formAltered;
 showNotificationsEl.onchange = formAltered;
 shouldRingEl.onchange = formAltered;
 clickRestartsEl.onchange = formAltered;
@@ -81,6 +83,7 @@ function formAltered() {
 }
 
 siteListEl.value = background.PREFS.siteList.join("\n");
+goalEl.value = background.PREFS.goal;
 showNotificationsEl.checked = background.PREFS.showNotifications;
 shouldRingEl.checked = background.PREFS.shouldRing;
 clickRestartsEl.checked = background.PREFS.clickRestarts;

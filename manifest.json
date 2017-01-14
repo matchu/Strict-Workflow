@@ -3,7 +3,8 @@
       "scripts": ["background.js"]
    },
    "browser_action": {
-      "default_icon": "icons/work_pending.png"
+      "default_icon": "icons/work_pending.png",
+      "default_popup": "popup.html"
    },
    "default_locale": "en",
    "description": "__MSG_ext_description__",
