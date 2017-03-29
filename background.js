@@ -3,7 +3,6 @@
   Constants
 
 */
-
 var PREFS = loadPrefs(),
 BADGE_BACKGROUND_COLORS = {
   work: [192, 0, 0, 255],
@@ -288,6 +287,8 @@ function executeInAllBlockedTabs(action) {
   });
 }
 
+
+
 var notification, mainPomodoro = new Pomodoro({
   getDurations: function () { return PREFS.durations },
   timer: {
@@ -299,7 +300,7 @@ var notification, mainPomodoro = new Pomodoro({
       
       if(PREFS.showNotifications) {
         var nextModeName = chrome.i18n.getMessage(timer.pomodoro.nextMode);
-        chrome.notifications.create("", {
+        chrome.notifications.create("notification", {
           type: "basic",
           title: chrome.i18n.getMessage("timer_end_notification_header"),
           message: chrome.i18n.getMessage("timer_end_notification_body",
@@ -307,6 +308,10 @@ var notification, mainPomodoro = new Pomodoro({
           priority: 2,
           iconUrl: ICONS.FULL[timer.type]
         }, function() {});
+		chrome.notifications.onClicked.addListener(function(){
+			startPomodoro();
+			chrome.notifications.clear("notification")
+		});  
       }
       
       if(PREFS.shouldRing) {
@@ -338,10 +343,14 @@ var notification, mainPomodoro = new Pomodoro({
     onTick: function (timer) {
       chrome.browserAction.setBadgeText({text: timer.timeRemainingString()});
     }
-  }
+ }
 });
 
 chrome.browserAction.onClicked.addListener(function (tab) {
+	startPomodoro();
+});
+
+function startPomodoro(){
   if(mainPomodoro.running) { 
       if(PREFS.clickRestarts) {
           mainPomodoro.restart();
@@ -349,7 +358,8 @@ chrome.browserAction.onClicked.addListener(function (tab) {
   } else {
       mainPomodoro.start();
   }
-});
+}
+
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   if(mainPomodoro.mostRecentMode == 'work') {
@@ -364,3 +374,24 @@ chrome.notifications.onClicked.addListener(function (id) {
     chrome.windows.update(window.id, {focused: true});
   });
 });
+
+var skipMode = function(e){
+	if(mainPomodoro.running){
+		mainPomodoro.currentTimer.timeRemaining = -1;
+	} else {
+		var mostRecentMode = mainPomodoro.mostRecentMode;
+    	mainPomodoro.mostRecentMode = mainPomodoro.nextMode;
+    	mainPomodoro.nextMode = mostRecentMode;
+		chrome.browserAction.setIcon({
+			path: ICONS.ACTION.PENDING[mainPomodoro.nextMode]
+		});
+		chrome.browserAction.setBadgeText({text: ''});
+	}
+};
+
+
+chrome.contextMenus.create({
+	title: chrome.i18n.getMessage("skip"),
+	contexts: ["browser_action"],
+	onclick: skipMode
+})

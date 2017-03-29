@@ -100,5 +100,9 @@
         "example": "work"
       }
     }
+  },
+  "skip": {
+    "message": "Skip this!",
+    "description": "Skip this mode and jump to next"
   }
 }

@@ -15,7 +15,7 @@
    "manifest_version": 2,
    "name": "__MSG_ext_name__",
    "options_page": "options.html",
-   "permissions": [ "notifications", "tabs", "<all_urls>" ],
+   "permissions": [ "notifications", "tabs", "<all_urls>", "contextMenus" ],
    "version": "1.7.0",
    "web_accessible_resources": [
       "icons/work_full.png",
