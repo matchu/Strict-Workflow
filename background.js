@@ -127,6 +127,9 @@ function Pomodoro(options) {
 
   this.onTimerEnd = function (timer) {
     this.running = false;
+    if (PREFS.autoContinue && this.mostRecentMode == 'break') {
+      this.start();
+    }
   }
 
   this.start = function () {
@@ -144,10 +147,15 @@ function Pomodoro(options) {
     this.currentTimer.start();
   }
   
+  this.stop = function () {
+    if (this.currentTimer) {
+      this.currentTimer.stop();
+    }
+  }
+
   this.restart = function () {
-      if(this.currentTimer) {
-          this.currentTimer.restart();
-      }
+    this.stop();
+    this.start();
   }
 }
 
@@ -161,6 +169,10 @@ Pomodoro.Timer = function Timer(pomodoro, options) {
     tickInterval = setInterval(tick, 1000);
     options.onStart(timer);
     options.onTick(timer);
+  }
+
+  this.stop = function () {
+    clearInterval(tickInterval);
   }
   
   this.restart = function() {
@@ -180,9 +192,9 @@ Pomodoro.Timer = function Timer(pomodoro, options) {
     timer.timeRemaining--;
     options.onTick(timer);
     if(timer.timeRemaining <= 0) {
-      clearInterval(tickInterval);
-      pomodoro.onTimerEnd(timer);
+      timer.stop();
       options.onEnd(timer);
+      pomodoro.onTimerEnd(timer);
     }
   }
 }
@@ -343,9 +355,12 @@ var notification, mainPomodoro = new Pomodoro({
 
 chrome.browserAction.onClicked.addListener(function (tab) {
   if(mainPomodoro.running) { 
-      if(PREFS.clickRestarts) {
-          mainPomodoro.restart();
-      }
+    if(PREFS.clickRestarts && mainPomodoro.mostRecentMode == 'work') {
+      mainPomodoro.currentTimer.restart();
+    }
+    if(PREFS.clickSkips && mainPomodoro.mostRecentMode == 'break') {
+      mainPomodoro.restart();
+    }
   } else {
       mainPomodoro.start();
   }
