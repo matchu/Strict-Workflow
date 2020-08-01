@@ -37,7 +37,9 @@ function defaultPrefs() {
     },
     shouldRing: true,
     clickRestarts: false,
-    whitelist: false
+    whitelist: false,
+    sessions:{},
+    goal: 3
   }
 }
 
@@ -292,6 +294,17 @@ var notification, mainPomodoro = new Pomodoro({
   getDurations: function () { return PREFS.durations },
   timer: {
     onEnd: function (timer) {
+      console.log("here")
+      key = new Date().toDateString()
+      if(timer.type == "work"){
+        if(PREFS.sessions[key]) {
+         PREFS.sessions[key] += 1
+        } else {
+         PREFS.sessions[key] = 1
+        }
+        savePrefs(PREFS)
+      }
+
       chrome.browserAction.setIcon({
         path: ICONS.ACTION.PENDING[timer.pomodoro.nextMode]
       });
@@ -341,7 +354,8 @@ var notification, mainPomodoro = new Pomodoro({
   }
 });
 
-chrome.browserAction.onClicked.addListener(function (tab) {
+// chrome.browserAction.onClicked.addListener(function (tab) {
+function clicked() {
   if(mainPomodoro.running) { 
       if(PREFS.clickRestarts) {
           mainPomodoro.restart();
@@ -349,7 +363,19 @@ chrome.browserAction.onClicked.addListener(function (tab) {
   } else {
       mainPomodoro.start();
   }
-});
+}
+
+function session_count() {
+  key = new Date().toDateString()
+  if(PREFS.sessions[key])
+    return PREFS.sessions[key]
+  else
+    return 0;
+}
+
+function goal() {
+  return PREFS.goal
+}
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
   if(mainPomodoro.mostRecentMode == 'work') {
