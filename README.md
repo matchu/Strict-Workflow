@@ -1,15 +1,15 @@
 # Strict-Workflow
-A Chrome extension that helps you stay focused by blocking sites during work timers and letting you browse during break timers.
+A Chrome extension that helps you stay focused by blocking sites during work timers and letting you browse during break timers. <br />
 This extension was created using JavaScript and HTML. 
 
 # How To Use
 Add the chrome extension through the chrome web store: 
 https://chrome.google.com/webstore/detail/strict-workflow/cgmnfnmlficgeijcalkgnnkigkefkbhd
 
-Right click the extension, and click options to add to/edit the list of blocked websites.
-Click the extension icon to begin the work timer. 
-Once the timer ends, click the extension again to begin the break timer.
-Right click the extension to edit other settings, such as the work timer, break timer, and notification settings.
+Right click the extension, and click options to add to/edit the list of blocked websites. <br />
+Click the extension icon to begin the work timer. <br />
+Once the timer ends, click the extension again to begin the break timer. <br />
+Right click the extension to edit other settings, such as the work timer, break timer, and notification settings. <br />
 
 # Credits
 Creator - Matchu <br />
