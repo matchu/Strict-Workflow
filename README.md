@@ -12,9 +12,9 @@ Once the timer ends, click the extension again to begin the break timer.
 Right click the extension to edit other settings, such as the work timer, break timer, and notification settings.
 
 # Credits
-Creator - Matchu
-Tomato icon - Artbees's Paradise Fruit Icons set
-Ringing sound effect - FreeSound.org
+Creator - Matchu <br />
+Tomato icon - Artbees's Paradise Fruit Icons set <br />
+Ringing sound effect - FreeSound.org <br />
 
 # License
 Copyright (c) 2020 Matt Dunn-Rankin
