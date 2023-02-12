@@ -11,7 +11,7 @@ https://chrome.google.com/webstore/detail/strict-workflow/cgmnfnmlficgeijcalkgnn
 - Click the extension icon to begin the work timer. ![image](https://user-images.githubusercontent.com/68031935/218339422-c5fa258e-7fea-4445-a9bb-f8580df90ab1.png)<br />
 - Once the timer ends, click the extension again to begin the break timer.  <br />
 - Right click the extension to edit other settings, such as the work timer, break timer, and notification settings. <br /><br />
-![image](https://user-images.githubusercontent.com/68031935/218339404-43fbed8d-94d3-469f-b27e-c2e4096bea62.png)<br />
+![image](https://user-images.githubusercontent.com/68031935/218339677-d9fe37b1-d998-4bac-b06f-907b6d0171a5.png)<br />
 
 
 # Credits
