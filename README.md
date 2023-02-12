@@ -4,6 +4,7 @@ This extension was created using JavaScript and HTML.
 
 # How To Use
 Add the chrome extension through the chrome web store: 
+<br />
 https://chrome.google.com/webstore/detail/strict-workflow/cgmnfnmlficgeijcalkgnnkigkefkbhd
 
 Right click the extension, and click options to add to/edit the list of blocked websites. <br />
