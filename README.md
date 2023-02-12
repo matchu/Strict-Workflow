@@ -8,8 +8,8 @@ Add the chrome extension through the chrome web store:
 https://chrome.google.com/webstore/detail/strict-workflow/cgmnfnmlficgeijcalkgnnkigkefkbhd
 
 - Right click the extension, and click options to add to/edit the list of blocked websites.   <br />
-- Click the extension icon to begin the work timer. <br />
-- Once the timer ends, click the extension again to begin the break timer. ![image](https://user-images.githubusercontent.com/68031935/218339422-c5fa258e-7fea-4445-a9bb-f8580df90ab1.png) <br />
+- Click the extension icon to begin the work timer. ![image](https://user-images.githubusercontent.com/68031935/218339422-c5fa258e-7fea-4445-a9bb-f8580df90ab1.png)<br />
+- Once the timer ends, click the extension again to begin the break timer.  <br />
 - Right click the extension to edit other settings, such as the work timer, break timer, and notification settings. <br /><br />
 ![image](https://user-images.githubusercontent.com/68031935/218339404-43fbed8d-94d3-469f-b27e-c2e4096bea62.png)<br />
 
